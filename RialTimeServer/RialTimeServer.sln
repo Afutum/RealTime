@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34902.65
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RialTimeServer", "RialTimeServer.csproj", "{74F92F84-F3D8-4DB9-9752-F2196742D834}"
+	ProjectSection(ProjectDependencies) = postProject
+		{64656627-ECFB-4D40-B00E-9C56BEDD7BAD} = {64656627-ECFB-4D40-B00E-9C56BEDD7BAD}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "..\Shared\Shared.csproj", "{64656627-ECFB-4D40-B00E-9C56BEDD7BAD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目", "ソリューション項目", "{048343A4-14D3-4692-ABFB-D211166037C9}"
+	ProjectSection(SolutionItems) = preProject
+		Package.json = Package.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{74F92F84-F3D8-4DB9-9752-F2196742D834}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74F92F84-F3D8-4DB9-9752-F2196742D834}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74F92F84-F3D8-4DB9-9752-F2196742D834}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74F92F84-F3D8-4DB9-9752-F2196742D834}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64656627-ECFB-4D40-B00E-9C56BEDD7BAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64656627-ECFB-4D40-B00E-9C56BEDD7BAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64656627-ECFB-4D40-B00E-9C56BEDD7BAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64656627-ECFB-4D40-B00E-9C56BEDD7BAD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {98E8489B-B97D-4468-BB47-9012AE7B226D}
+	EndGlobalSection
+EndGlobal

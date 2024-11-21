@@ -1,0 +1,21 @@
+@startuml
+'botシーケンス図
+
+participant クライアントA
+participant クライアントB
+participant サーバー
+participant MagicOnion
+
+
+autonumber
+
+クライアントA -> MagicOnion:join
+サーバー <- MagicOnion:Users(A)
+クライアントA <- MagicOnion:Users(A)
+クライアントB -> MagicOnion:join
+サーバー <- MagicOnion:Onjoin(B)
+クライアントA <- MagicOnion:Onjoin(B)
+サーバー <- MagicOnion:Users(A,B)
+クライアントB <- MagicOnion:Users(A,B)
+
+@enduml '
