@@ -10,5 +10,7 @@ namespace Shared.Interfaces.StreamingHubs
 
         // ユーザーの入室
         void OnJoin(JoinedUser user);
+
+        void OnLeaveUser(Guid ConnectionId);
     }
 }

@@ -12,5 +12,8 @@ namespace Shared.Interfaces.StreamingHubs
 
         // ユーザー入室
         Task<JoinedUser[]> JoinAsync(string roomName, int userId);
+
+        // ユーザー退室
+        Task LeaveAsync();
     }
 }

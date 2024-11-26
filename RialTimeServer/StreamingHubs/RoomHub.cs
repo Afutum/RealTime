@@ -1,5 +1,6 @@
 ﻿using MagicOnion.Server.Hubs;
 using RialTimeServer.Model.Context;
+using RialTimeServer.Model.Entity;
 using Shared.Interfaces.StreamingHubs;
 
 
@@ -36,6 +37,18 @@ namespace RialTimeServer.StreamingHubs
             }
 
             return joinedUsersList;
+        }
+
+        public async Task LeaveAsync()
+        {
+            // グループから削除
+            this.room.GetInMemoryStorage<RoomData>().Remove(this.ConnectionId);
+
+            // ルーム参加者全員に、ユーザー退室通知を送信
+            this.Broadcast(room).OnLeaveUser(this.ConnectionId);
+
+            // ルーム内のメンバーから自分を削除
+            await room.RemoveAsync(this.Context);
         }
     }
 }
