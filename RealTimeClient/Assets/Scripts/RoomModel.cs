@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class RoomModel : BaseModel,IRoomHubReceiver
 {
@@ -20,6 +21,10 @@ public class RoomModel : BaseModel,IRoomHubReceiver
     public Guid ConnectionId { get; set; }
     // ユーザー接続通知
     public Action<JoinedUser> OnJoinedUser {  get; set; }
+
+    public Action<Guid> OnLeave {  get; set; }
+
+    public Action<Guid,Vector3,Quaternion> OnMoveCharacter { get; set; }
 
     // MagicOnion接続処理
     public async UniTask ConnectAsync()
@@ -58,5 +63,26 @@ public class RoomModel : BaseModel,IRoomHubReceiver
     public void OnJoin(JoinedUser user)
     {
         OnJoinedUser(user);
+    }
+
+    public async UniTask LeaveAsync()
+    {
+        await roomHub.LeaveAsync();
+    }
+
+    public void OnLeaveUser(Guid ConnectionId)
+    {
+        OnLeave(ConnectionId);
+    }
+
+    // 位置・回転を送信する
+    public async Task MoveAsync(Vector3 pos, Quaternion rot)
+    {
+        await roomHub.MoveAsync(pos, rot);
+    }
+
+    public void OnMove(Guid ConnectionId, Vector3 pos, Quaternion rot)
+    {
+        OnMoveCharacter(ConnectionId, pos, rot);
     }
 }

@@ -78,9 +78,6 @@
     <Compile Include="C:\Users\student\git\RealTime\Shared\Class1.cs">
       <Link>Class1.cs</Link>
     </Compile>
-    <Compile Include="C:\Users\student\git\RealTime\Shared\Model\Entity\User.cs">
-      <Link>Model\Entity\User.cs</Link>
-    </Compile>
     <Compile Include="C:\Users\student\git\RealTime\Shared\Interfaces\Services\IUserService.cs">
       <Link>Interfaces\Services\IUserService.cs</Link>
     </Compile>
@@ -90,14 +87,17 @@
     <Compile Include="C:\Users\student\git\RealTime\Shared\obj\Debug\netstandard2.1\Shared.AssemblyInfo.cs">
       <Link>obj\Debug\netstandard2.1\Shared.AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="C:\Users\student\git\RealTime\Shared\Interfaces\StreamingHubs\IRoomHub.cs">
+      <Link>Interfaces\StreamingHubs\IRoomHub.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\student\git\RealTime\Shared\Model\Entity\User.cs">
+      <Link>Model\Entity\User.cs</Link>
+    </Compile>
     <Compile Include="C:\Users\student\git\RealTime\Shared\Interfaces\Services\IMyFirstService.cs">
       <Link>Interfaces\Services\IMyFirstService.cs</Link>
     </Compile>
     <Compile Include="C:\Users\student\git\RealTime\Shared\Interfaces\StreamingHubs\JoindUser.cs">
       <Link>Interfaces\StreamingHubs\JoindUser.cs</Link>
-    </Compile>
-    <Compile Include="C:\Users\student\git\RealTime\Shared\Interfaces\StreamingHubs\IRoomHub.cs">
-      <Link>Interfaces\StreamingHubs\IRoomHub.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -474,6 +474,10 @@
       <HintPath>Assets\Packages\Grpc.Net.Common.2.57.0\lib\netstandard2.1\Grpc.Net.Common.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="DOTweenEditor">
+      <HintPath>Assets\Plugins\Demigiant\DOTween\Editor\DOTweenEditor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="MagicOnion.Abstractions">
       <HintPath>Assets\Packages\MagicOnion.Abstractions.6.1.5\lib\netstandard2.0\MagicOnion.Abstractions.dll</HintPath>
       <Private>False</Private>
@@ -504,6 +508,10 @@
     </Reference>
     <Reference Include="MagicOnion.Shared">
       <HintPath>Assets\Packages\MagicOnion.Shared.6.1.5\lib\netstandard2.1\MagicOnion.Shared.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets\Plugins\Demigiant\DOTween\DOTween.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.Logging.Abstractions">

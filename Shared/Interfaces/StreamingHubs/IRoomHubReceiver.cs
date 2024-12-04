@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Shared.Interfaces.StreamingHubs
@@ -10,5 +12,11 @@ namespace Shared.Interfaces.StreamingHubs
 
         // ユーザーの入室
         void OnJoin(JoinedUser user);
+
+        // ユーザーの退室
+        void OnLeaveUser(Guid ConnectionId);
+
+        // ユーザーの移動
+        void OnMove(Guid ConnectionId,Vector3 pos,Quaternion rot);
     }
 }
