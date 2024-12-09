@@ -12,6 +12,8 @@ public class GameDirector : MonoBehaviour
     Dictionary<Guid,GameObject> characterList = new Dictionary<Guid,GameObject>();
     [SerializeField] Text userId;
 
+    UIManager manager;
+
     async void Start()
     {
         // ユーザーが入室したときにOnJoinedUserメソッドを実行するよう、モデルに登録しておく
@@ -22,6 +24,8 @@ public class GameDirector : MonoBehaviour
 
         roomModel.OnMoveCharacter += this.OnMove;
 
+        manager = GameObject.Find("UIManager").GetComponent<UIManager>();
+
         // 接続
         await roomModel.ConnectAsync();
     }
@@ -30,11 +34,14 @@ public class GameDirector : MonoBehaviour
     {
         // 入室
         await roomModel.JoinAsync("sampleRoom", int.Parse(userId.text));
+
+        manager.HideUI();
     }
 
     public async void ExitRoom()
     {
         await roomModel.LeaveAsync();
+        manager.DisplayUI();
     }
 
     // ユーザーが入室した時の処理
@@ -72,7 +79,7 @@ public class GameDirector : MonoBehaviour
 
     private void OnMove(Guid ConnectionId,Vector3 pos,Quaternion rot)
     {
-        characterList[ConnectionId].transform. = pos;
+        characterList[ConnectionId].transform.position = pos;
         characterList[ConnectionId].transform.rotation = rot;
     }
 

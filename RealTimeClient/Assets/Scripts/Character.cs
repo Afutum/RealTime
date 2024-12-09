@@ -12,12 +12,15 @@ public class Character : MonoBehaviour
     public float moveSpeed;
     Vector3 move;
 
+    Animator animator;
+
     public bool isSelf;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        //animator.SetFloat("speed", moveSpeed);
     }
 
     // Update is called once per frame
