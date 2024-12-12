@@ -22,9 +22,17 @@ public class RoomModel : BaseModel,IRoomHubReceiver
     // ユーザー接続通知
     public Action<JoinedUser> OnJoinedUser {  get; set; }
 
+    // ユーザー退室通知
     public Action<Guid> OnLeave {  get; set; }
 
+    // ユーザー移動通知
     public Action<Guid,Vector3,Quaternion> OnMoveCharacter { get; set; }
+
+    // ボール移動通知
+    public Action<Vector3,Quaternion> OnBallMove { get; set; }
+
+    // 準備完了通知
+    public Action OnGameReady { get; set; }
 
     // MagicOnion接続処理
     public async UniTask ConnectAsync()
@@ -84,5 +92,25 @@ public class RoomModel : BaseModel,IRoomHubReceiver
     public void OnMove(Guid ConnectionId, Vector3 pos, Quaternion rot)
     {
         OnMoveCharacter(ConnectionId, pos, rot);
+    }
+
+    public void OnMoveBall(Vector3 pos, Quaternion rot)
+    {
+        OnMoveBall(pos, rot);
+    }
+
+    public async Task MoveBallAsync(Vector3 pos, Quaternion rot)
+    {
+        await roomHub.MoveBallAsync(pos,rot);
+    }
+
+    public async Task ReadyAsync()
+    {
+        await roomHub.ReadyAsync();
+    }
+
+    public void OnReady()
+    {
+        OnGameReady();
     }
 }

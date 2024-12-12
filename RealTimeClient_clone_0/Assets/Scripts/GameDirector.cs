@@ -11,18 +11,26 @@ public class GameDirector : MonoBehaviour
     [SerializeField] RoomModel roomModel;
     Dictionary<Guid,GameObject> characterList = new Dictionary<Guid,GameObject>();
     [SerializeField] Text userId;
+    [SerializeField] GameObject ball;
 
     UIManager manager;
 
+    int joinOrder;
+
     async void Start()
     {
-        // ユーザーが入室したときにOnJoinedUserメソッドを実行するよう、モデルに登録しておく
+        // ユーザーが入室したときにOnJoinedUserメソッドを実行するよう、モデルに登録
         roomModel.OnJoinedUser += this.OnJoinedUser;
 
         // ユーザーが退室した時にOnLeaveメソッドを実行するよう、モデルに登録
         roomModel.OnLeave += this.OnLeave;
 
+        // ユーザーが動いたときにOnMoveメソッドを実行するよう、モデルに登録
         roomModel.OnMoveCharacter += this.OnMove;
+
+        roomModel.OnGameReady += this.OnReady;
+
+        roomModel.OnBallMove += this.OnMoveBall;
 
         manager = GameObject.Find("UIManager").GetComponent<UIManager>();
 
@@ -35,12 +43,15 @@ public class GameDirector : MonoBehaviour
         // 入室
         await roomModel.JoinAsync("sampleRoom", int.Parse(userId.text));
 
+        // UIを非表示
         manager.HideUI();
     }
 
+    // ユーザー退出
     public async void ExitRoom()
     {
         await roomModel.LeaveAsync();
+        // UIを表示
         manager.DisplayUI();
     }
 
@@ -51,8 +62,14 @@ public class GameDirector : MonoBehaviour
 
         if(user.ConnectionId == roomModel.ConnectionId)
         {
+            joinOrder = user.JoinOrder;
             characterObject.GetComponent<Character>().isSelf = true;
             InvokeRepeating("SendMove", 0.1f,0.1f);
+        }
+
+        if(joinOrder == 0)
+        {
+            Instantiate(ball);
         }
 
         characterObject.transform.position = new Vector3(0, 0, 0);
@@ -60,6 +77,7 @@ public class GameDirector : MonoBehaviour
         characterList[user.ConnectionId] = characterObject; // フィールドで保持
     }
 
+    // 退出ユーザー削除
     private void OnLeave(Guid ConnectionId)
     {
         if(roomModel.ConnectionId == ConnectionId)
@@ -77,6 +95,7 @@ public class GameDirector : MonoBehaviour
         }
     }
 
+    // 移動
     private void OnMove(Guid ConnectionId,Vector3 pos,Quaternion rot)
     {
         characterList[ConnectionId].transform.position = pos;
@@ -85,6 +104,26 @@ public class GameDirector : MonoBehaviour
 
     private async void SendMove()
     {
-       await roomModel.MoveAsync(characterList[roomModel.ConnectionId].transform.position, characterList[roomModel.ConnectionId].transform.rotation);
+        if (joinOrder == 0)
+        {
+            await roomModel.MoveBallAsync(ball.transform.position, ball.transform.rotation);
+        }
+        await roomModel.MoveAsync(characterList[roomModel.ConnectionId].transform.position, characterList[roomModel.ConnectionId].transform.rotation);
+    }
+
+    private void OnMoveBall(Vector3 pos, Quaternion rot)
+    {
+        ball.transform.position = pos;
+        ball.transform.rotation = rot;
+    }
+
+    public async void SetReady()
+    {
+        await roomModel.ReadyAsync();
+    }
+
+    public void OnReady()
+    {
+
     }
 }

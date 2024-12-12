@@ -11,21 +11,30 @@ namespace RialTimeServer.StreamingHubs
         private IGroup room;
 
         //準備完了
-        /*public async Task ReddyAsync()
+        public async Task ReadyAsync()
         {
             // 準備できたことを自分のRoomDataに保存
             var roomDataStorage = this.room.GetInMemoryStorage<RoomData>();
-            var roomData = roomDataStorage.Get(this.ConnectionId);
-
-            // 全員準備できたか判定
-            bool isReady = false;
-            var roomDataList = roomDataStorage.AllValues.ToArray<RoomData>();
-
-            foreach(var roomData in roomDataList)
+            lock (roomDataStorage)
             {
+                var roomData = roomDataStorage.Get(this.ConnectionId);
+                // roomDataで準備完了状態を保存しておく
+                roomData.JoinedUser.IsReady = true;
 
+                var roomDataList = roomDataStorage.AllValues.ToArray<RoomData>();
+
+                foreach (var rmData in roomDataList)
+                {
+                    if(!rmData.JoinedUser.IsReady)
+                    {// 全員が準備完了していなかったら
+                        return;
+                    }
+                }
+
+                // 全員にゲーム開始を通知
+                this.Broadcast(room).OnReady();
             }
-        }*/
+        }
 
         public async Task<JoinedUser[]> JoinAsync(string roomName,int userId)
         {
@@ -39,13 +48,16 @@ namespace RialTimeServer.StreamingHubs
             // グループストレージにユーザーデータを格納
             var roomStorage = this.room.GetInMemoryStorage<RoomData>();
             var joinedUser = new JoinedUser() { ConnectionId = this.ConnectionId, UserData = user};
-            var roomData = new RoomData() { JoinedUser = joinedUser };  
+            var roomData = new RoomData() { JoinedUser = joinedUser }; 
             roomStorage.Set(this.ConnectionId,roomData);
+
+            RoomData[] roomDataList = roomStorage.AllValues.ToArray<RoomData>();
+
+            joinedUser.JoinOrder = roomDataList.Length;
 
             // ルーム参加者全員に、ユーザー入室通知を送信
             this.BroadcastExceptSelf(room).OnJoin(joinedUser);
 
-            RoomData[] roomDataList = roomStorage.AllValues.ToArray<RoomData>();
             // 参加中のユーザー情報を返す
             JoinedUser[] joinedUsersList = new JoinedUser[roomDataList.Length];
 
@@ -83,6 +95,12 @@ namespace RialTimeServer.StreamingHubs
                 // ローム内の他のユーザーに位置・回転の変更を送信
                 this.BroadcastExceptSelf(room).OnMove(this.ConnectionId, pos, rot);
             }
+        }
+
+        public async Task MoveBallAsync(Vector3 pos, Quaternion rot)
+        {
+            // ローム内の他のユーザーに位置・回転の変更を送信
+            this.BroadcastExceptSelf(room).OnMoveBall(pos, rot);
         }
     }
 }

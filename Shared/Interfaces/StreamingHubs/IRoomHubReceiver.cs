@@ -18,5 +18,10 @@ namespace Shared.Interfaces.StreamingHubs
 
         // ユーザーの移動
         void OnMove(Guid ConnectionId,Vector3 pos,Quaternion rot);
+
+        // ユーザー準備完了
+        void OnReady();
+
+        void OnMoveBall(Vector3 pos, Quaternion rot);
     }
 }

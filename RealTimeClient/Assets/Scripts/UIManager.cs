@@ -13,18 +13,20 @@ public class UIManager : MonoBehaviour
     [SerializeField] Text roomName;
     [SerializeField] GameObject userId;
     [SerializeField] GameObject inRoomButton;
-    
+    [SerializeField] GameObject ReadyButton;
+
+    GameDirector gameDirector;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameDirector = GameObject.Find("GameDirector").GetComponent<GameDirector>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void PushButton()
@@ -42,5 +44,10 @@ public class UIManager : MonoBehaviour
     {
         userId.SetActive(true);
         inRoomButton.SetActive(true);
+    }
+
+    public void PushReady()
+    {
+        gameDirector.SetReady();
     }
 }

@@ -83,6 +83,7 @@
     <Compile Include="Assets\Scripts\UIManager.cs" />
     <Compile Include="Assets\Scripts\GameDirector.cs" />
     <Compile Include="Assets\Model\BaseModel.cs" />
+    <Compile Include="Assets\Scripts\BallDirector.cs" />
     <Compile Include="Assets\Scripts\MyFirstModel.cs" />
     <Compile Include="Assets\Model\UserModel.cs" />
   </ItemGroup>

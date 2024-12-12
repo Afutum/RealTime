@@ -17,6 +17,12 @@ namespace Shared.Interfaces.StreamingHubs
         // ユーザー退室
         Task LeaveAsync();
 
+        // ユーザー移動
         Task MoveAsync(Vector3 pos, Quaternion rot);
+
+        // ユーザー準備完了
+        Task ReadyAsync();
+
+        Task MoveBallAsync(Vector3 pos, Quaternion rot);
     }
 }
