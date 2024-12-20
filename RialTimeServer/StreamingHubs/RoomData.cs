@@ -10,5 +10,7 @@ namespace RialTimeServer.StreamingHubs
         public Vector3 pos {  get; set; }
 
         public Quaternion rot { get; set; }
+
+        public int GoalCount { get; set; }
     }
 }

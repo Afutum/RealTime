@@ -9,13 +9,28 @@ participant MagicOnion
 
 autonumber
 
-クライアントA -> MagicOnion:join
+クライアントA -> MagicOnion:join(入室)
+サーバー <- MagicOnion:Onjoin(A)
 サーバー <- MagicOnion:Users(A)
 クライアントA <- MagicOnion:Users(A)
-クライアントB -> MagicOnion:join
+クライアントB -> MagicOnion:join(入室)
 サーバー <- MagicOnion:Onjoin(B)
 クライアントA <- MagicOnion:Onjoin(B)
 サーバー <- MagicOnion:Users(A,B)
 クライアントB <- MagicOnion:Users(A,B)
+
+クライアントA -> MagicOnion:Move(A,pos,rot)(移動)
+クライアントB -> MagicOnion:Move(B,pos,rot)(移動)
+MagicOnion -> クライアントA:OnMove(B,pos,rot)(移動通知)
+MagicOnion -> クライアントB:OnMove(A,pos,rot)(移動通知)
+
+クライアントA -> サーバー:MoveBall(pos,rot)(ボール移動)
+サーバー -> MagicOnion:MoveBall(pos,rot)(ボール移動)
+サーバー -> クライアントA:OnMoveBall(pos,rot)(ボール移動通知)
+サーバー -> クライアントB:OnMoveBall(pos,rot)(ボール移動通知)
+
+クライアントB -> サーバー:切断
+サーバー -> MagicOnion:OnDisconnected(クライアントB:切断)
+MagicOnion -> クライアントA:OnLeave(B)
 
 @enduml '

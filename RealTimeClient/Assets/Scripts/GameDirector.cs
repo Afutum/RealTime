@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
+
 
 public class GameDirector : MonoBehaviour
 {
@@ -11,11 +13,15 @@ public class GameDirector : MonoBehaviour
     [SerializeField] RoomModel roomModel;
     Dictionary<Guid,GameObject> characterList = new Dictionary<Guid,GameObject>();
     [SerializeField] Text userId;
-    [SerializeField] GameObject ball;
+    [SerializeField] GameObject ballPrefab;
+
+    GameObject ball;
+
+    Vector3 InitBallPos;
 
     UIManager manager;
 
-    int joinOrder;
+    public int joinOrder { get; set; }
 
     async void Start()
     {
@@ -62,19 +68,21 @@ public class GameDirector : MonoBehaviour
 
         if(user.ConnectionId == roomModel.ConnectionId)
         {
-            joinOrder = user.JoinOrder;
             characterObject.GetComponent<Character>().isSelf = true;
             InvokeRepeating("SendMove", 0.1f,0.1f);
-        }
-
-        if(joinOrder == 0)
-        {
-            Instantiate(ball);
+            joinOrder = user.JoinOrder;
         }
 
         characterObject.transform.position = new Vector3(0, 0, 0);
         transform.rotation = Quaternion.identity;
         characterList[user.ConnectionId] = characterObject; // フィールドで保持
+
+        if (user.JoinOrder == 1)
+        {
+            ball = Instantiate(ballPrefab);
+
+            InitBallPos = ball.transform.position;
+        }
     }
 
     // 退出ユーザー削除
@@ -87,6 +95,8 @@ public class GameDirector : MonoBehaviour
                 Destroy(character.Value);
             }
 
+            Destroy(ball);
+
             CancelInvoke("SendMove");
         }
         else
@@ -98,13 +108,14 @@ public class GameDirector : MonoBehaviour
     // 移動
     private void OnMove(Guid ConnectionId,Vector3 pos,Quaternion rot)
     {
-        characterList[ConnectionId].transform.position = pos;
-        characterList[ConnectionId].transform.rotation = rot;
+
+        characterList[ConnectionId].transform.DOLocalMove(pos,0.1f);
+        characterList[ConnectionId].transform.DOLocalRotateQuaternion(rot,0.1f);
     }
 
     private async void SendMove()
     {
-        if (joinOrder == 0)
+        if (joinOrder == 1)
         {
             await roomModel.MoveBallAsync(ball.transform.position, ball.transform.rotation);
         }
@@ -113,13 +124,20 @@ public class GameDirector : MonoBehaviour
 
     private void OnMoveBall(Vector3 pos, Quaternion rot)
     {
-        ball.transform.position = pos;
-        ball.transform.rotation = rot;
+        ball.transform.transform.DOLocalMove(pos, 0.1f);
+        ball.transform.transform.DOLocalRotateQuaternion(rot, 0.1f);
     }
 
     public async void SetReady()
     {
         await roomModel.ReadyAsync();
+    }
+
+    
+
+    public void OnGoal(int leftGoalNum, int rightGoalNum)
+    {
+        manager.GoalTextCount(leftGoalNum, rightGoalNum);
     }
 
     public void OnReady()

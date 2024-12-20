@@ -16,10 +16,13 @@ public class Character : MonoBehaviour
 
     public bool isSelf;
 
+    FloatingJoystick floatingJoystick;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        floatingJoystick = GameObject.Find("Floating Joystick").GetComponent<FloatingJoystick>();
         //animator.SetFloat("speed", moveSpeed);
     }
 
@@ -40,7 +43,9 @@ public class Character : MonoBehaviour
         Vector3 cameraForward = new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z);
         Vector3 cameraRight = new Vector3(Camera.main.transform.right.x, 0, Camera.main.transform.right.z);
 
-        move = (cameraForward * z + cameraRight * x).normalized;
+        //this.transform.DOMove(new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z),2.0f);
+
+        move = (cameraForward * floatingJoystick.Vertical + cameraRight * floatingJoystick.Horizontal).normalized;
 
         rb.velocity = move * moveSpeed;
 

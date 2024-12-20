@@ -102,5 +102,28 @@ namespace RialTimeServer.StreamingHubs
             // ローム内の他のユーザーに位置・回転の変更を送信
             this.BroadcastExceptSelf(room).OnMoveBall(pos, rot);
         }
+
+        protected override ValueTask OnDisconnected()
+        {
+            // ルームデータ削除
+            this.room.GetInMemoryStorage<RoomData>().Remove(this.ConnectionId);
+            // 退室したことを全メンバーに通知
+            this.Broadcast(room).OnLeaveUser(this.ConnectionId);
+            // ルーム内のメンバーから削除
+            room.RemoveAsync(this.Context);
+            return CompletedTask;
+        }
+
+        public async Task GoalAsync()
+        {
+            var roomStorage = this.room.GetInMemoryStorage<RoomData>();
+            var roomData = roomStorage.Get(this.ConnectionId);
+            roomData.GoalCount++;
+
+            RoomData[] roomDataList = roomStorage.AllValues.ToArray<RoomData>();
+
+            // 退室したことを全メンバーに通知
+            this.Broadcast(room).OnGoal(roomDataList[0].GoalCount, roomDataList[1].GoalCount);
+        }
     }
 }

@@ -34,6 +34,8 @@ public class RoomModel : BaseModel,IRoomHubReceiver
     // èÄîıäÆóπí ím
     public Action OnGameReady { get; set; }
 
+    public Action OnGoalCnt {  get; set; }
+
     // MagicOnionê⁄ë±èàóù
     public async UniTask ConnectAsync()
     {
@@ -96,7 +98,7 @@ public class RoomModel : BaseModel,IRoomHubReceiver
 
     public void OnMoveBall(Vector3 pos, Quaternion rot)
     {
-        OnMoveBall(pos, rot);
+        OnBallMove(pos, rot);
     }
 
     public async Task MoveBallAsync(Vector3 pos, Quaternion rot)
@@ -112,5 +114,15 @@ public class RoomModel : BaseModel,IRoomHubReceiver
     public void OnReady()
     {
         OnGameReady();
+    }
+
+    public async Task GoalAsync()
+    {
+        await roomHub.GoalAsync();
+    }
+
+    public void OnGoal(int leftGoalNum, int rightGoalNum)
+    {
+        OnGoalCnt();
     }
 }
