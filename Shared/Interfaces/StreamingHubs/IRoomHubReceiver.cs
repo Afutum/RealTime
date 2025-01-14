@@ -25,5 +25,7 @@ namespace Shared.Interfaces.StreamingHubs
         void OnMoveBall(Vector3 pos, Quaternion rot);
 
         void OnGoal(int leftGoalNum,int rightGoalNum);
+
+        void OnShoot(Vector3 shootPow);
     }
 }

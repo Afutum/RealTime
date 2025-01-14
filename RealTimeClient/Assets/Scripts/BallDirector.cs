@@ -30,6 +30,8 @@ public class BallDirector : MonoBehaviour
 
     GameDirector gameDirector;
 
+    ShootAreaCheck shootArea;
+
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody>();
@@ -46,12 +48,20 @@ public class BallDirector : MonoBehaviour
         roomModel = GameObject.Find("RoomModel").GetComponent<RoomModel>();
 
         gameDirector = GameObject.Find("GameDirector").GetComponent<GameDirector>();
+
+        roomModel.OnShootPow += this.OnShoot;
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+        if (manager.isShootArea)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                shoot();
+            }
+        }
     }
 
     public async void OnCollisionEnter(Collision collision)
@@ -104,11 +114,20 @@ public class BallDirector : MonoBehaviour
         Vector3 ballPos = myTransform.position;
         // プレイヤーから見たボールの方向を計算
         Vector3 direction = (ballPos - playerPos).normalized;
-        direction.y += 0.7f;
+        direction.y += 0.6f;
         // 現在の速さを取得
         float speed = myRigidbody.velocity.magnitude;
 
-        myRigidbody.AddForce(direction * shootPow, ForceMode.Impulse);
+        roomModel.ShootAsync(direction * shootPow);
+
         Debug.Log(myRigidbody.velocity);
+    }
+
+    public void OnShoot(Vector3 shootPow)
+    {
+        if (gameDirector.joinOrder == 1)
+        {
+            myRigidbody.AddForce(shootPow, ForceMode.Impulse);
+        }
     }
 }

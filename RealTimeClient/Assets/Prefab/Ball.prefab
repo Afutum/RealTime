@@ -122,7 +122,7 @@ MonoBehaviour:
   speed: 4
   minSpeed: 5
   maxSpeed: 10
-  shootPow: 100
+  shootPow: 60
   velocity: {x: 0, y: 0, z: 0}
 --- !u!54 &9204666596840136925
 Rigidbody:

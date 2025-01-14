@@ -105,12 +105,15 @@ namespace RialTimeServer.StreamingHubs
 
         protected override ValueTask OnDisconnected()
         {
-            // ルームデータ削除
-            this.room.GetInMemoryStorage<RoomData>().Remove(this.ConnectionId);
-            // 退室したことを全メンバーに通知
-            this.Broadcast(room).OnLeaveUser(this.ConnectionId);
-            // ルーム内のメンバーから削除
-            room.RemoveAsync(this.Context);
+            if (this.room != null)
+            {
+                // ルームデータ削除
+                this.room.GetInMemoryStorage<RoomData>().Remove(this.ConnectionId);
+                // 退室したことを全メンバーに通知
+                this.Broadcast(room).OnLeaveUser(this.ConnectionId);
+                // ルーム内のメンバーから削除
+                room.RemoveAsync(this.Context);
+            }
             return CompletedTask;
         }
 
@@ -122,8 +125,14 @@ namespace RialTimeServer.StreamingHubs
 
             RoomData[] roomDataList = roomStorage.AllValues.ToArray<RoomData>();
 
-            // 退室したことを全メンバーに通知
+            // ゴールしたことを全メンバーに通知
             this.Broadcast(room).OnGoal(roomDataList[0].GoalCount, roomDataList[1].GoalCount);
+        }
+
+        public async Task ShootAsync(Vector3 shootPow)
+        {
+            // ローム内の他のユーザーに位置・回転の変更を送信
+            this.Broadcast(room).OnShoot(shootPow);
         }
     }
 }

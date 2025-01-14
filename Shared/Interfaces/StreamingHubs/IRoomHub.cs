@@ -26,5 +26,7 @@ namespace Shared.Interfaces.StreamingHubs
         Task MoveBallAsync(Vector3 pos, Quaternion rot);
 
         Task GoalAsync();
+
+        Task ShootAsync(Vector3 shootPow);
     }
 }

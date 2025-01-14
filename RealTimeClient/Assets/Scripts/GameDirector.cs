@@ -38,6 +38,8 @@ public class GameDirector : MonoBehaviour
 
         roomModel.OnBallMove += this.OnMoveBall;
 
+        roomModel.OnGoalCnt += this.OnGoal;
+
         manager = GameObject.Find("UIManager").GetComponent<UIManager>();
 
         // ê⁄ë±
@@ -108,7 +110,6 @@ public class GameDirector : MonoBehaviour
     // à⁄ìÆ
     private void OnMove(Guid ConnectionId,Vector3 pos,Quaternion rot)
     {
-
         characterList[ConnectionId].transform.DOLocalMove(pos,0.1f);
         characterList[ConnectionId].transform.DOLocalRotateQuaternion(rot,0.1f);
     }
@@ -119,6 +120,7 @@ public class GameDirector : MonoBehaviour
         {
             await roomModel.MoveBallAsync(ball.transform.position, ball.transform.rotation);
         }
+
         await roomModel.MoveAsync(characterList[roomModel.ConnectionId].transform.position, characterList[roomModel.ConnectionId].transform.rotation);
     }
 
@@ -132,8 +134,6 @@ public class GameDirector : MonoBehaviour
     {
         await roomModel.ReadyAsync();
     }
-
-    
 
     public void OnGoal(int leftGoalNum, int rightGoalNum)
     {
