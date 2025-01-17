@@ -17,7 +17,7 @@ public class GameDirector : MonoBehaviour
 
     GameObject ball;
 
-    Vector3 InitBallPos;
+    public Vector3 InitBallPos;
 
     UIManager manager;
 
@@ -138,6 +138,8 @@ public class GameDirector : MonoBehaviour
     public void OnGoal(int leftGoalNum, int rightGoalNum)
     {
         manager.GoalTextCount(leftGoalNum, rightGoalNum);
+
+        manager.GoalEffect();
     }
 
     public void OnReady()

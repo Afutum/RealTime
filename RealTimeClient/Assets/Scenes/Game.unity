@@ -13399,9 +13399,15 @@ MonoBehaviour:
   userId: {fileID: 9663996}
   inRoomButton: {fileID: 1577562509}
   ReadyButton: {fileID: 0}
-  LeftGoal: {fileID: 1097483750}
-  RightGoal: {fileID: 937559457}
+  LeftGoal: {fileID: 937559457}
+  RightGoal: {fileID: 1097483750}
   shootBtn: {fileID: 96028661}
+  goalEffect1: {fileID: 6985843439123286799, guid: cbd6d2972f012bf418affb595e6caea7,
+    type: 3}
+  goalEffect2: {fileID: 3994603437505558398, guid: f0e319e7f76e24f469b6ed7adc56dc85,
+    type: 3}
+  goalEffect3: {fileID: 3026042737347428729, guid: cfc90bf64ba500a45a97a31ea0b18b3b,
+    type: 3}
 --- !u!4 &832121509
 Transform:
   m_ObjectHideFlags: 0

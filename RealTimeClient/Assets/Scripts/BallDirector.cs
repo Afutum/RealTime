@@ -32,6 +32,8 @@ public class BallDirector : MonoBehaviour
 
     ShootAreaCheck shootArea;
 
+    bool isGoal;
+
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody>();
@@ -50,6 +52,8 @@ public class BallDirector : MonoBehaviour
         gameDirector = GameObject.Find("GameDirector").GetComponent<GameDirector>();
 
         roomModel.OnShootPow += this.OnShoot;
+
+        isGoal = false;
     }
 
     // Update is called once per frame
@@ -84,19 +88,24 @@ public class BallDirector : MonoBehaviour
 
     private async void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Goal"))
+        if (isGoal == false)
         {
-            if(other.gameObject.name == "LeftGoalWall" && gameDirector.joinOrder == 2)
+            if (other.gameObject.CompareTag("Goal"))
             {
-                await roomModel.GoalAsync();
+                if (other.gameObject.name == "LeftGoalWall" && gameDirector.joinOrder == 2)
+                {
+                    await roomModel.GoalAsync();
 
-                Invoke(nameof(StopBall), 0.3f);
-            }
-            else if(other.gameObject.name == "RightGoalWall" && gameDirector.joinOrder == 1)
-            {
-                await roomModel.GoalAsync();
+                    Invoke(nameof(StopBall), 0.3f);
+                }
+                else if (other.gameObject.name == "RightGoalWall" && gameDirector.joinOrder == 1)
+                {
+                    await roomModel.GoalAsync();
 
-                Invoke(nameof(StopBall), 0.3f);
+                    Invoke(nameof(StopBall), 0.3f);
+                }
+
+                isGoal = true;
             }
         }
     }
@@ -104,6 +113,8 @@ public class BallDirector : MonoBehaviour
     public void StopBall()
     {
         myRigidbody.velocity = new Vector3(0,0,0);
+
+
     }
 
     public void shoot()
@@ -128,6 +139,15 @@ public class BallDirector : MonoBehaviour
         if (gameDirector.joinOrder == 1)
         {
             myRigidbody.AddForce(shootPow, ForceMode.Impulse);
+        }
+    }
+
+    public void ResetBallPos()
+    {
+        if (isGoal)
+        {
+            this.gameObject.transform.position = gameDirector.InitBallPos;
+            isGoal = false;
         }
     }
 }

@@ -28,5 +28,7 @@ namespace Shared.Interfaces.StreamingHubs
         Task GoalAsync();
 
         Task ShootAsync(Vector3 shootPow);
+
+        Task StartGameAsync();
     }
 }

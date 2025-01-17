@@ -17,6 +17,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMesh LeftGoal;
     [SerializeField] TextMesh RightGoal;
     [SerializeField] GameObject shootBtn;
+    [SerializeField] GameObject goalEffect1;
+    [SerializeField] GameObject goalEffect2;
+    [SerializeField] GameObject goalEffect3;
+
+    GameObject effect1;
+    GameObject effect2;
+    GameObject effect3;
 
     GameDirector gameDirector;
 
@@ -68,7 +75,6 @@ public class UIManager : MonoBehaviour
     {
         LeftGoal.text = "" + leftGoalCnt;
         RightGoal.text = "" + rightGoalCnt;
-
     }
 
     public void PushShootBtn()
@@ -79,5 +85,27 @@ public class UIManager : MonoBehaviour
 
             ball.shoot();
         }
+    }
+
+    public void GoalEffect()
+    {
+        effect1 = Instantiate(goalEffect1);
+        effect2 = Instantiate(goalEffect2);
+        effect3 = Instantiate(goalEffect3);
+
+        effect1.transform.position = new Vector3(-2.7f, 0, 0);
+        effect2.transform.position = new Vector3(3.86f, 0, 0);
+        effect3.transform.position = new Vector3(0, -2.92f, 0);
+
+        Invoke(nameof(DestoryGoalEffect), 3f);
+    }
+
+    public void DestoryGoalEffect()
+    {
+        Destroy(effect1);
+        Destroy(effect2);
+        Destroy(effect3);
+
+        ball.ResetBallPos();
     }
 }

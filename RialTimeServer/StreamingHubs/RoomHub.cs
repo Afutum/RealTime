@@ -134,5 +134,10 @@ namespace RialTimeServer.StreamingHubs
             // ローム内の他のユーザーに位置・回転の変更を送信
             this.Broadcast(room).OnShoot(shootPow);
         }
+
+        public async Task StartGameAsync()
+        {
+
+        }
     }
 }
