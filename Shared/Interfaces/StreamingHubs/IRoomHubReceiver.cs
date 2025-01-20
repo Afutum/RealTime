@@ -28,6 +28,6 @@ namespace Shared.Interfaces.StreamingHubs
 
         void OnShoot(Vector3 shootPow);
 
-        //void OnStart();
+        //void OnStart(bool isStart);
     }
 }

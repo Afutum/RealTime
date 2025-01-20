@@ -137,7 +137,17 @@ namespace RialTimeServer.StreamingHubs
 
         public async Task StartGameAsync()
         {
+            var roomStorage = this.room.GetInMemoryStorage<RoomData>();
+            var roomData = roomStorage.Get(this.ConnectionId);
 
+            RoomData[] roomDataList = roomStorage.AllValues.ToArray<RoomData>();
+
+            
+
+            if(roomDataList.Length == 2)
+            {
+                
+            }
         }
     }
 }
