@@ -13,7 +13,7 @@ namespace RialTimeServer.Model.Context
 
 #else
        //AzureVMで実行時の接続先
-       readonly string connectionString = "server=soccergame.japaneast.cloudapp.azure.com;database=realtime_game;user=student;password=Yoshidajobi2023;";
+       readonly string connectionString = "server=db-ge-03.mysql.database.azure.com;database=realtime_game;user=student;password=Yoshidajobi2023;";
 
 #endif
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

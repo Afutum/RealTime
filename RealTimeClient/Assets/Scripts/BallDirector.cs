@@ -38,6 +38,7 @@ public class BallDirector : MonoBehaviour
     {
         myRigidbody = GetComponent<Rigidbody>();
         //myRigidbody.velocity = new Vector3(speed,0f, speed);
+
         // Transformコンポーネントを取得して保持しておく
         myTransform = transform;
 
@@ -113,8 +114,6 @@ public class BallDirector : MonoBehaviour
     public void StopBall()
     {
         myRigidbody.velocity = new Vector3(0,0,0);
-
-
     }
 
     public void shoot()
