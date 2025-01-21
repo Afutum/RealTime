@@ -82,7 +82,7 @@ namespace RialTimeServer.StreamingHubs
         }
 
         // 位置・回転をクライアントに通知する
-        public async Task MoveAsync(Vector3 pos, Quaternion rot)
+        public async Task MoveAsync(Vector3 pos, Quaternion rot,IRoomHubReceiver.CharactorState state)
         {
             // グループストレージからRoomDataを取得して、位置と回転を保存
             var roomStorage = this.room.GetInMemoryStorage<RoomData>();
@@ -93,7 +93,7 @@ namespace RialTimeServer.StreamingHubs
                 roomData.rot = rot;
 
                 // ローム内の他のユーザーに位置・回転の変更を送信
-                this.BroadcastExceptSelf(room).OnMove(this.ConnectionId, pos, rot);
+                this.BroadcastExceptSelf(room).OnMove(this.ConnectionId, pos, rot,state);
             }
         }
 

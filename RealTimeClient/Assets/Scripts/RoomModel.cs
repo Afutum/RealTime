@@ -26,7 +26,7 @@ public class RoomModel : BaseModel,IRoomHubReceiver
     public Action<Guid> OnLeave {  get; set; }
 
     // ユーザー移動通知
-    public Action<Guid,Vector3,Quaternion> OnMoveCharacter { get; set; }
+    public Action<Guid,Vector3,Quaternion,int> OnMoveCharacter { get; set; }
 
     // ボール移動通知
     public Action<Vector3,Quaternion> OnBallMove { get; set; }
@@ -88,14 +88,14 @@ public class RoomModel : BaseModel,IRoomHubReceiver
     }
 
     // 位置・回転を送信する
-    public async Task MoveAsync(Vector3 pos, Quaternion rot)
+    public async Task MoveAsync(Vector3 pos, Quaternion rot,IRoomHubReceiver.CharactorState state)
     {
-        await roomHub.MoveAsync(pos, rot);
+        await roomHub.MoveAsync(pos, rot,state);
     }
 
-    public void OnMove(Guid ConnectionId, Vector3 pos, Quaternion rot)
+    public void OnMove(Guid ConnectionId, Vector3 pos, Quaternion rot,IRoomHubReceiver.CharactorState state)
     {
-        OnMoveCharacter(ConnectionId, pos, rot);
+        OnMoveCharacter(ConnectionId, pos, rot,(int)state);
     }
 
     public void OnMoveBall(Vector3 pos, Quaternion rot)

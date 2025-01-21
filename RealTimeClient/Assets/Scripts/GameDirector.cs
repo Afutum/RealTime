@@ -20,6 +20,7 @@ public class GameDirector : MonoBehaviour
     public Vector3 InitBallPos;
 
     UIManager manager;
+    Character chara;
 
     public int joinOrder { get; set; }
 
@@ -78,6 +79,8 @@ public class GameDirector : MonoBehaviour
         characterObject.transform.position = new Vector3(0, 0, 0);
         transform.rotation = Quaternion.identity;
         characterList[user.ConnectionId] = characterObject; // フィールドで保持
+        characterList[user.ConnectionId].GetComponent<Character>().connectionId = user.ConnectionId;
+
 
         if (user.JoinOrder == 1)
         {
@@ -108,10 +111,11 @@ public class GameDirector : MonoBehaviour
     }
 
     // 移動
-    private void OnMove(Guid ConnectionId,Vector3 pos,Quaternion rot)
+    private void OnMove(Guid ConnectionId,Vector3 pos,Quaternion rot,int state)
     {
         characterList[ConnectionId].transform.DOLocalMove(pos,0.1f);
         characterList[ConnectionId].transform.DOLocalRotateQuaternion(rot,0.1f);
+        characterList[ConnectionId].GetComponent<Character>().state = (Character.CharactorState)state;
     }
 
     private async void SendMove()
@@ -121,7 +125,8 @@ public class GameDirector : MonoBehaviour
             await roomModel.MoveBallAsync(ball.transform.position, ball.transform.rotation);
         }
 
-        await roomModel.MoveAsync(characterList[roomModel.ConnectionId].transform.position, characterList[roomModel.ConnectionId].transform.rotation);
+        await roomModel.MoveAsync(characterList[roomModel.ConnectionId].transform.position, 
+            characterList[roomModel.ConnectionId].transform.rotation,(IRoomHubReceiver.CharactorState)characterList[roomModel.ConnectionId].GetComponent<Character>().state);
     }
 
     private void OnMoveBall(Vector3 pos, Quaternion rot)

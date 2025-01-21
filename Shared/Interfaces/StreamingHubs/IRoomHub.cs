@@ -18,7 +18,7 @@ namespace Shared.Interfaces.StreamingHubs
         Task LeaveAsync();
 
         // ユーザー移動
-        Task MoveAsync(Vector3 pos, Quaternion rot);
+        Task MoveAsync(Vector3 pos, Quaternion rot,IRoomHubReceiver.CharactorState state);
 
         // ユーザー準備完了
         Task ReadyAsync();
