@@ -12,5 +12,7 @@ namespace RialTimeServer.StreamingHubs
         public Quaternion rot { get; set; }
 
         public int GoalCount { get; set; }
+
+        public bool isGameStart { get; set; }
     }
 }

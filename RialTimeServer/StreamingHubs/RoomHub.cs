@@ -139,14 +139,27 @@ namespace RialTimeServer.StreamingHubs
         {
             var roomStorage = this.room.GetInMemoryStorage<RoomData>();
             var roomData = roomStorage.Get(this.ConnectionId);
+            roomData.isGameStart = true;
 
             RoomData[] roomDataList = roomStorage.AllValues.ToArray<RoomData>();
 
-            
+            bool isStartGame = true;
 
-            if(roomDataList.Length == 2)
+            for (int i = 0; i < roomDataList.Length; i++)
             {
-                
+                if (roomDataList[i].isGameStart)
+                {
+                    isStartGame = true;
+                }
+                else
+                {
+                    isStartGame = false;
+                }
+            }
+
+            if (isStartGame)
+            {
+                this.Broadcast(room).OnStart();
             }
         }
     }

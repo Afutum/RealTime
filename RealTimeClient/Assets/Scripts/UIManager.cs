@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class UIManager : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject goalEffect1;
     [SerializeField] GameObject goalEffect2;
     [SerializeField] GameObject goalEffect3;
+    [SerializeField] Text goalText;
 
     GameObject effect1;
     GameObject effect2;
@@ -37,6 +39,7 @@ public class UIManager : MonoBehaviour
         gameDirector = GameObject.Find("GameDirector").GetComponent<GameDirector>();
 
         shootBtn.SetActive(false);
+        goalText.enabled = false;
     }
 
     // Update is called once per frame
@@ -81,8 +84,6 @@ public class UIManager : MonoBehaviour
     {
         if (isShootArea)
         {
-            ball = GameObject.Find("Ball(Clone)").gameObject.GetComponent<BallDirector>();
-
             ball.shoot();
         }
     }
@@ -97,6 +98,9 @@ public class UIManager : MonoBehaviour
         effect2.transform.position = new Vector3(3.86f, 0, 0);
         effect3.transform.position = new Vector3(0, -2.92f, 0);
 
+        goalText.enabled = true;
+        goalText.DOText("Goal", 3.0f);
+
         Invoke(nameof(DestoryGoalEffect), 3f);
     }
 
@@ -106,6 +110,13 @@ public class UIManager : MonoBehaviour
         Destroy(effect2);
         Destroy(effect3);
 
+        goalText.enabled = false;
+
         ball.ResetBallPos();
+    }
+
+    public void SetBall(GameObject ballObj)
+    {
+        ball = ballObj.GetComponent<BallDirector>();
     }
 }

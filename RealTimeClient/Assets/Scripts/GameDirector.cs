@@ -24,6 +24,8 @@ public class GameDirector : MonoBehaviour
 
     public int joinOrder { get; set; }
 
+    public bool isStart;
+
     async void Start()
     {
         // ユーザーが入室したときにOnJoinedUserメソッドを実行するよう、モデルに登録
@@ -35,13 +37,15 @@ public class GameDirector : MonoBehaviour
         // ユーザーが動いたときにOnMoveメソッドを実行するよう、モデルに登録
         roomModel.OnMoveCharacter += this.OnMove;
 
-        roomModel.OnGameReady += this.OnReady;
-
         roomModel.OnBallMove += this.OnMoveBall;
 
         roomModel.OnGoalCnt += this.OnGoal;
 
+        roomModel.OnGameStart += this.OnStartGame;
+
         manager = GameObject.Find("UIManager").GetComponent<UIManager>();
+
+        isStart = false;
 
         // 接続
         await roomModel.ConnectAsync();
@@ -65,7 +69,7 @@ public class GameDirector : MonoBehaviour
     }
 
     // ユーザーが入室した時の処理
-    private void OnJoinedUser(JoinedUser user)
+    private async void OnJoinedUser(JoinedUser user)
     {
         GameObject characterObject = Instantiate(characterPrefab); // インスタンス生成
 
@@ -81,12 +85,18 @@ public class GameDirector : MonoBehaviour
         characterList[user.ConnectionId] = characterObject; // フィールドで保持
         characterList[user.ConnectionId].GetComponent<Character>().connectionId = user.ConnectionId;
 
-
         if (user.JoinOrder == 1)
         {
             ball = Instantiate(ballPrefab);
 
+            manager.SetBall(ball);
+
             InitBallPos = ball.transform.position;
+        }
+
+        if(characterList.Count >= 2)
+        {
+            roomModel.StartGameAsync();
         }
     }
 
@@ -147,8 +157,8 @@ public class GameDirector : MonoBehaviour
         manager.GoalEffect();
     }
 
-    public void OnReady()
+    public void OnStartGame()
     {
-
+        isStart = true;
     }
 }

@@ -141,11 +141,13 @@ public class BallDirector : MonoBehaviour
         }
     }
 
-    public void ResetBallPos()
+    public async void ResetBallPos()
     {
         if (isGoal)
         {
             this.gameObject.transform.position = gameDirector.InitBallPos;
+            await roomModel.MoveBallAsync(this.gameObject.transform.position, this.gameObject.transform.rotation);
+            StopBall();
             isGoal = false;
         }
     }

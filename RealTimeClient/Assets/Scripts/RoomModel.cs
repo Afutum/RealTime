@@ -38,6 +38,8 @@ public class RoomModel : BaseModel,IRoomHubReceiver
 
     public Action<Vector3> OnShootPow {  get; set; }
 
+    public Action OnGameStart { get; set; }
+
     // MagicOnionê⁄ë±èàóù
     public async UniTask ConnectAsync()
     {
@@ -136,5 +138,15 @@ public class RoomModel : BaseModel,IRoomHubReceiver
     public void OnShoot(Vector3 shootPow)
     {
         OnShootPow(shootPow);
+    }
+
+    public async void StartGameAsync()
+    {
+        await roomHub.StartGameAsync();
+    }
+
+    public void OnStart()
+    {
+        OnGameStart();
     }
 }
