@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class TimerDirector : MonoBehaviour
 {
     [SerializeField] TextMesh timerText;
+    [SerializeField] RoomModel roomModel;
 
     GameDirector gameDirector;
 
@@ -22,6 +23,12 @@ public class TimerDirector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (countTime <= 0)
+        {
+            countTime = 0;
+            roomModel.EndGameAsync();
+        }
+
         if (gameDirector.isStart)
         {
             countTime -= Time.deltaTime;

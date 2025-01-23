@@ -82,7 +82,7 @@ namespace RialTimeServer.StreamingHubs
         }
 
         // 位置・回転をクライアントに通知する
-        public async Task MoveAsync(Vector3 pos, Quaternion rot,IRoomHubReceiver.CharactorState state)
+        public async Task MoveAsync(Vector3 pos, Quaternion rot,IRoomHubReceiver.CharacterState state)
         {
             // グループストレージからRoomDataを取得して、位置と回転を保存
             var roomStorage = this.room.GetInMemoryStorage<RoomData>();
@@ -160,6 +160,34 @@ namespace RialTimeServer.StreamingHubs
             if (isStartGame)
             {
                 this.Broadcast(room).OnStart();
+            }
+        }
+
+        public async Task EndGameAsync()
+        {
+            var roomStorage = this.room.GetInMemoryStorage<RoomData>();
+            var roomData = roomStorage.Get(this.ConnectionId);
+            roomData.isGameStart = true;
+
+            RoomData[] roomDataList = roomStorage.AllValues.ToArray<RoomData>();
+
+            bool isEndGame = true;
+
+            for (int i = 0; i < roomDataList.Length; i++)
+            {
+                if (roomDataList[i].isGameStart)
+                {
+                    isEndGame = true;
+                }
+                else
+                {
+                    isEndGame = false;
+                }
+            }
+
+            if (isEndGame)
+            {
+                this.Broadcast(room).OnEndGame();
             }
         }
     }

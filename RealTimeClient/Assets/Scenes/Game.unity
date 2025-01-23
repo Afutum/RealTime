@@ -309,7 +309,7 @@ PrefabInstance:
     - target: {fileID: 8170153791668043268, guid: 0d230cc8be529a542a08cb878ab14b18,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 745.5
+      value: 893.57
       objectReference: {fileID: 0}
     - target: {fileID: 8170153791668043268, guid: 0d230cc8be529a542a08cb878ab14b18,
         type: 3}
@@ -354,7 +354,7 @@ PrefabInstance:
     - target: {fileID: 8170153791668043268, guid: 0d230cc8be529a542a08cb878ab14b18,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -587.25
+      value: -516
       objectReference: {fileID: 0}
     - target: {fileID: 8170153791668043268, guid: 0d230cc8be529a542a08cb878ab14b18,
         type: 3}
@@ -380,6 +380,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Floating Joystick
+      objectReference: {fileID: 0}
+    - target: {fileID: 8170153791668043269, guid: 0d230cc8be529a542a08cb878ab14b18,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8170153791668043271, guid: 0d230cc8be529a542a08cb878ab14b18,
         type: 3}
@@ -21766,6 +21771,7 @@ MonoBehaviour:
     type: 3}
   InitBallPos: {x: 0, y: 0, z: 0}
   isStart: 0
+  isEnd: 0
 --- !u!4 &1518388615
 Transform:
   m_ObjectHideFlags: 0
@@ -27839,6 +27845,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerText: {fileID: 1520052373}
+  roomModel: {fileID: 0}
 --- !u!1 &2126192741
 GameObject:
   m_ObjectHideFlags: 0

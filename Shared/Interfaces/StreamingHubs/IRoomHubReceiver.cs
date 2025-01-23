@@ -10,7 +10,7 @@ namespace Shared.Interfaces.StreamingHubs
     {
         //[ここにサーバー側からクライアント側を呼び出す関数を定義する]
 
-        public enum CharactorState
+        public enum CharacterState
         {
             idle = 0,
             run = 1
@@ -23,7 +23,7 @@ namespace Shared.Interfaces.StreamingHubs
         void OnLeaveUser(Guid ConnectionId);
 
         // ユーザーの移動
-        void OnMove(Guid ConnectionId,Vector3 pos,Quaternion rot,CharactorState state);
+        void OnMove(Guid ConnectionId,Vector3 pos,Quaternion rot,CharacterState state);
 
         // ユーザー準備完了
         void OnReady();
@@ -35,5 +35,7 @@ namespace Shared.Interfaces.StreamingHubs
         void OnShoot(Vector3 shootPow);
 
         void OnStart();
+
+        void OnEndGame();
     }
 }

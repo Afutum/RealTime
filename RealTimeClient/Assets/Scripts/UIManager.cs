@@ -99,7 +99,7 @@ public class UIManager : MonoBehaviour
         effect3.transform.position = new Vector3(0, -2.92f, 0);
 
         goalText.enabled = true;
-        goalText.DOText("Goal", 3.0f);
+        goalText.DOText("GOAL", 3.0f);
 
         Invoke(nameof(DestoryGoalEffect), 3f);
     }

@@ -18,7 +18,7 @@ namespace Shared.Interfaces.StreamingHubs
         Task LeaveAsync();
 
         // ユーザー移動
-        Task MoveAsync(Vector3 pos, Quaternion rot,IRoomHubReceiver.CharactorState state);
+        Task MoveAsync(Vector3 pos, Quaternion rot,IRoomHubReceiver.CharacterState state);
 
         // ユーザー準備完了
         Task ReadyAsync();
@@ -30,5 +30,7 @@ namespace Shared.Interfaces.StreamingHubs
         Task ShootAsync(Vector3 shootPow);
 
         Task StartGameAsync();
+
+        Task EndGameAsync();
     }
 }

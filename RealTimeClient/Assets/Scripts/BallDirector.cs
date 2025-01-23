@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using DG.Tweening;
+using UnityEngine.TextCore.Text;
 
 public class BallDirector : MonoBehaviour
 {
@@ -32,6 +33,8 @@ public class BallDirector : MonoBehaviour
 
     ShootAreaCheck shootArea;
 
+    Character chara;
+
     bool isGoal;
 
     void Start()
@@ -51,6 +54,8 @@ public class BallDirector : MonoBehaviour
         roomModel = GameObject.Find("RoomModel").GetComponent<RoomModel>();
 
         gameDirector = GameObject.Find("GameDirector").GetComponent<GameDirector>();
+
+        chara = GameObject.Find("Character(Clone)").GetComponent<Character>();
 
         roomModel.OnShootPow += this.OnShoot;
 
@@ -83,7 +88,7 @@ public class BallDirector : MonoBehaviour
             // åªç›ÇÃë¨Ç≥ÇéÊìæ
             float speed = myRigidbody.velocity.magnitude;
             // ë¨ìxÇïœçX
-            myRigidbody.velocity = direction * (speed + player.moveSpeed / 2);
+            myRigidbody.velocity = direction * (speed + player.moveSpeed / 5);
         }
     }
 
@@ -145,9 +150,14 @@ public class BallDirector : MonoBehaviour
     {
         if (isGoal)
         {
-            this.gameObject.transform.position = gameDirector.InitBallPos;
-            await roomModel.MoveBallAsync(this.gameObject.transform.position, this.gameObject.transform.rotation);
             StopBall();
+            this.gameObject.transform.position = gameDirector.InitBallPos;
+
+            await roomModel.MoveBallAsync(this.gameObject.transform.position, 
+                this.gameObject.transform.rotation);
+
+            gameDirector.ResetCharaPos();
+
             isGoal = false;
         }
     }

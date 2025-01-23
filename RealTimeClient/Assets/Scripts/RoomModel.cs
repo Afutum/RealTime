@@ -40,6 +40,8 @@ public class RoomModel : BaseModel,IRoomHubReceiver
 
     public Action OnGameStart { get; set; }
 
+    public Action OnGameEnd { get; set; }
+
     // MagicOnionê⁄ë±èàóù
     public async UniTask ConnectAsync()
     {
@@ -90,12 +92,12 @@ public class RoomModel : BaseModel,IRoomHubReceiver
     }
 
     // à íuÅEâÒì]ÇëóêMÇ∑ÇÈ
-    public async Task MoveAsync(Vector3 pos, Quaternion rot,IRoomHubReceiver.CharactorState state)
+    public async Task MoveAsync(Vector3 pos, Quaternion rot,IRoomHubReceiver.CharacterState state)
     {
         await roomHub.MoveAsync(pos, rot,state);
     }
 
-    public void OnMove(Guid ConnectionId, Vector3 pos, Quaternion rot,IRoomHubReceiver.CharactorState state)
+    public void OnMove(Guid ConnectionId, Vector3 pos, Quaternion rot,IRoomHubReceiver.CharacterState state)
     {
         OnMoveCharacter(ConnectionId, pos, rot,(int)state);
     }
@@ -148,5 +150,15 @@ public class RoomModel : BaseModel,IRoomHubReceiver
     public void OnStart()
     {
         OnGameStart();
+    }
+
+    public async void EndGameAsync()
+    {
+        await roomHub.EndGameAsync();
+    }
+
+    public void OnEndGame()
+    {
+        OnGameEnd();
     }
 }

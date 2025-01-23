@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Unity.VisualScripting;
 
 
 public class GameDirector : MonoBehaviour
@@ -25,6 +26,7 @@ public class GameDirector : MonoBehaviour
     public int joinOrder { get; set; }
 
     public bool isStart;
+    public bool isEnd;
 
     async void Start()
     {
@@ -43,9 +45,12 @@ public class GameDirector : MonoBehaviour
 
         roomModel.OnGameStart += this.OnStartGame;
 
+        roomModel.OnGameEnd += this.OnEndGame;
+
         manager = GameObject.Find("UIManager").GetComponent<UIManager>();
 
         isStart = false;
+        isEnd = false;
 
         // 接続
         await roomModel.ConnectAsync();
@@ -72,6 +77,7 @@ public class GameDirector : MonoBehaviour
     private async void OnJoinedUser(JoinedUser user)
     {
         GameObject characterObject = Instantiate(characterPrefab); // インスタンス生成
+        chara = characterObject.GetComponent<Character>();
 
         if(user.ConnectionId == roomModel.ConnectionId)
         {
@@ -80,7 +86,15 @@ public class GameDirector : MonoBehaviour
             joinOrder = user.JoinOrder;
         }
 
-        characterObject.transform.position = new Vector3(0, 0, 0);
+        if(user.JoinOrder == 1)
+        {
+            chara.InitPosition(new Vector3(-7.95f, 0, 1.93f), Quaternion.Euler(0,90,0));
+        }
+        else if(user.JoinOrder == 2)
+        {
+            chara.InitPosition(new Vector3(7.95f, 0, 1.93f), Quaternion.Euler(0, 270, 0));
+        }
+
         transform.rotation = Quaternion.identity;
         characterList[user.ConnectionId] = characterObject; // フィールドで保持
         characterList[user.ConnectionId].GetComponent<Character>().connectionId = user.ConnectionId;
@@ -96,6 +110,7 @@ public class GameDirector : MonoBehaviour
 
         if(characterList.Count >= 2)
         {
+            //chara.InitPosition(characterPosList[joinOrder], characterRotList[joinOrder]);
             roomModel.StartGameAsync();
         }
     }
@@ -125,7 +140,7 @@ public class GameDirector : MonoBehaviour
     {
         characterList[ConnectionId].transform.DOLocalMove(pos,0.1f);
         characterList[ConnectionId].transform.DOLocalRotateQuaternion(rot,0.1f);
-        characterList[ConnectionId].GetComponent<Character>().state = (Character.CharactorState)state;
+        characterList[ConnectionId].GetComponent<Character>().state = (Character.CharacterState)state;
     }
 
     private async void SendMove()
@@ -136,7 +151,8 @@ public class GameDirector : MonoBehaviour
         }
 
         await roomModel.MoveAsync(characterList[roomModel.ConnectionId].transform.position, 
-            characterList[roomModel.ConnectionId].transform.rotation,(IRoomHubReceiver.CharactorState)characterList[roomModel.ConnectionId].GetComponent<Character>().state);
+            characterList[roomModel.ConnectionId].transform.rotation,
+            (IRoomHubReceiver.CharacterState)characterList[roomModel.ConnectionId].GetComponent<Character>().state);
     }
 
     private void OnMoveBall(Vector3 pos, Quaternion rot)
@@ -160,5 +176,20 @@ public class GameDirector : MonoBehaviour
     public void OnStartGame()
     {
         isStart = true;
+    }
+
+    public void ResetCharaPos()
+    {
+        foreach(var character in characterList)
+        {
+            character.Value.GetComponent<Character>().ResetPos();
+        }
+    }
+
+    public void OnEndGame()
+    {
+        isStart = false;
+        isEnd = true;
+        Debug.Log("えんど");
     }
 }

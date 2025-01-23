@@ -4,16 +4,17 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEditor.MemoryProfiler;
 using System;
+using UnityEngine.UIElements;
 
 public class Character : MonoBehaviour
 {
-    public enum CharactorState
+    public enum CharacterState
     {
         idle = 0,
         run = 1
     }
 
-    public CharactorState state { get; set; }
+    public CharacterState state { get; set; }
 
     Rigidbody rb;
 
@@ -34,6 +35,9 @@ public class Character : MonoBehaviour
 
     public Guid connectionId;
 
+    Vector3 initCharaPos;
+    Quaternion initCharaRot;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,7 +50,7 @@ public class Character : MonoBehaviour
 
         animSpeed = 0;
 
-        state = CharactorState.idle;
+        state = CharacterState.idle;
 
         //animator.SetFloat("speed", moveSpeed);
     }
@@ -83,11 +87,11 @@ public class Character : MonoBehaviour
 
         if(animSpeed > 0)
         {
-            state = CharactorState.run;
+            state = CharacterState.run;
         }
         else
         {
-            state = CharactorState.idle;
+            state = CharacterState.idle;
         }
 
         animator.SetInteger("state",(int)state);
@@ -98,5 +102,25 @@ public class Character : MonoBehaviour
             //-----------------------------------------åªç›ín,ñ⁄ìIÇÃíl,éûä‘
             transform.forward = Vector3.Slerp(transform.forward, move, Time.deltaTime * 6);
         }
+    }
+
+    public void InitPosition(Vector3 initPos, Quaternion rot)
+    {
+        /*if (roomModel.ConnectionId != connectionId)
+        {
+            return;
+        }*/
+
+        this.gameObject.transform.position = initPos;
+        initCharaPos = this.gameObject.transform.position;
+
+        this.gameObject.transform.rotation = rot;
+        initCharaRot = this.gameObject.transform.rotation;
+    }
+
+    public void ResetPos()
+    {
+        this.gameObject.transform.position = initCharaPos;
+        this.gameObject.transform.rotation = initCharaRot;
     }
 }
