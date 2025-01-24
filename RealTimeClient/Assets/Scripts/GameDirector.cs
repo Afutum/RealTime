@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using Unity.VisualScripting;
+using UnityEngine.TextCore.Text;
 
 
 public class GameDirector : MonoBehaviour
@@ -70,6 +71,9 @@ public class GameDirector : MonoBehaviour
     public async void ExitRoom()
     {
         await roomModel.LeaveAsync();
+
+        roomModel.EndGameAsync();
+
         // UI‚ð•\Ž¦
         manager.DisplayUI();
     }
@@ -111,7 +115,6 @@ public class GameDirector : MonoBehaviour
 
         if(characterList.Count >= 2)
         {
-            //chara.InitPosition(characterPosList[joinOrder], characterRotList[joinOrder]);
             roomModel.StartGameAsync();
         }
     }
@@ -126,6 +129,8 @@ public class GameDirector : MonoBehaviour
                 Destroy(character.Value);
             }
 
+            characterList.Clear();
+
             Destroy(ball);
 
             CancelInvoke("SendMove");
@@ -133,6 +138,7 @@ public class GameDirector : MonoBehaviour
         else
         {
             Destroy(characterList[ConnectionId]);
+            characterList.Remove(ConnectionId);
         }
     }
 

@@ -14,7 +14,7 @@ public class TimerDirector : MonoBehaviour
 
     //®”‚Æ‚·‚é•Ï”‚ğ’Ç‰Á
     int second;
-    float countTime = 30;
+    float countTime = 5;
 
     void Start()
     {

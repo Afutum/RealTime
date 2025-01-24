@@ -118,11 +118,6 @@ public class Character : MonoBehaviour
 
     public void InitPosition(Vector3 initPos, Quaternion rot)
     {
-        /*if (roomModel.ConnectionId != connectionId)
-        {
-            return;
-        }*/
-
         this.gameObject.transform.position = initPos;
         initCharaPos = this.gameObject.transform.position;
 
