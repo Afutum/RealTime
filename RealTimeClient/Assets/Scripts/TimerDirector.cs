@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +14,7 @@ public class TimerDirector : MonoBehaviour
 
     //®”‚Æ‚·‚é•Ï”‚ğ’Ç‰Á
     int second;
-    float countTime = 90;
+    float countTime = 30;
 
     void Start()
     {
@@ -23,10 +24,11 @@ public class TimerDirector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (countTime <= 0)
+        if (countTime <= 0 && gameDirector.isEnd == false)
         {
             countTime = 0;
             roomModel.EndGameAsync();
+            return;
         }
 
         if (gameDirector.isStart)
@@ -36,5 +38,11 @@ public class TimerDirector : MonoBehaviour
             //(int)countTime‚ÅintŒ^‚É•ÏŠ·‚µ‚Ä•\¦‚³‚¹‚éB
             timerText.text = second.ToString();
         }
+    }
+
+    public void ResetTimer()
+    {
+        countTime = 30;
+        timerText.text = second.ToString();
     }
 }

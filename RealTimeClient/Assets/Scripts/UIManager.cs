@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject goalEffect2;
     [SerializeField] GameObject goalEffect3;
     [SerializeField] Text goalText;
+    [SerializeField] GameObject joyStick;
 
     GameObject effect1;
     GameObject effect2;
@@ -39,6 +40,7 @@ public class UIManager : MonoBehaviour
         gameDirector = GameObject.Find("GameDirector").GetComponent<GameDirector>();
 
         shootBtn.SetActive(false);
+        joyStick.SetActive(false);
         goalText.enabled = false;
     }
 
@@ -66,7 +68,6 @@ public class UIManager : MonoBehaviour
     {
         userId.SetActive(true);
         inRoomButton.SetActive(true);
-        shootBtn.SetActive(true);
     }
 
     public void PushReady()
@@ -101,7 +102,7 @@ public class UIManager : MonoBehaviour
         goalText.enabled = true;
         goalText.DOText("GOAL", 3.0f);
 
-        Invoke(nameof(DestoryGoalEffect), 3f);
+        Invoke(("DestoryGoalEffect"), 3f);
     }
 
     public void DestoryGoalEffect()
@@ -118,5 +119,22 @@ public class UIManager : MonoBehaviour
     public void SetBall(GameObject ballObj)
     {
         ball = ballObj.GetComponent<BallDirector>();
+    }
+
+    public void DisplayGameUI()
+    {
+        shootBtn.SetActive(true);
+        joyStick.SetActive(true);
+    }
+
+    public void HideGameUI()
+    {
+        shootBtn.SetActive(false);
+        joyStick.SetActive(false);
+    }
+
+    public void DelayHideUI()
+    {
+        Invoke("HideGameUI", 1.0f);
     }
 }

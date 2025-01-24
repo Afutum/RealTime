@@ -167,7 +167,7 @@ namespace RialTimeServer.StreamingHubs
         {
             var roomStorage = this.room.GetInMemoryStorage<RoomData>();
             var roomData = roomStorage.Get(this.ConnectionId);
-            roomData.isGameStart = true;
+            roomData.isGameStart = false;
 
             RoomData[] roomDataList = roomStorage.AllValues.ToArray<RoomData>();
 
@@ -175,7 +175,7 @@ namespace RialTimeServer.StreamingHubs
 
             for (int i = 0; i < roomDataList.Length; i++)
             {
-                if (roomDataList[i].isGameStart)
+                if (roomDataList[i].isGameStart == false)
                 {
                     isEndGame = true;
                 }

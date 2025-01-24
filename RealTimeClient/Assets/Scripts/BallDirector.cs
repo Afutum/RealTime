@@ -102,13 +102,13 @@ public class BallDirector : MonoBehaviour
                 {
                     await roomModel.GoalAsync();
 
-                    Invoke(nameof(StopBall), 0.3f);
+                    Invoke(("StopBall"), 0.3f);
                 }
                 else if (other.gameObject.name == "RightGoalWall" && gameDirector.joinOrder == 1)
                 {
                     await roomModel.GoalAsync();
 
-                    Invoke(nameof(StopBall), 0.3f);
+                    Invoke(("StopBall"),0.3f);
                 }
 
                 isGoal = true;

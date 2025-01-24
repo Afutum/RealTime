@@ -15,6 +15,7 @@ public class GameDirector : MonoBehaviour
     Dictionary<Guid,GameObject> characterList = new Dictionary<Guid,GameObject>();
     [SerializeField] Text userId;
     [SerializeField] GameObject ballPrefab;
+    [SerializeField] TimerDirector timer;
 
     GameObject ball;
 
@@ -175,7 +176,9 @@ public class GameDirector : MonoBehaviour
 
     public void OnStartGame()
     {
+        isEnd = false;
         isStart = true;
+        manager.DisplayGameUI();
     }
 
     public void ResetCharaPos()
@@ -190,6 +193,9 @@ public class GameDirector : MonoBehaviour
     {
         isStart = false;
         isEnd = true;
-        Debug.Log("‚¦‚ñ‚Ç");
+
+        manager.DelayHideUI();
+        timer.ResetTimer();
+        Invoke("ExitRoom", 1.0f);
     }
 }

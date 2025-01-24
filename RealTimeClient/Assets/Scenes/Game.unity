@@ -7829,12 +7829,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 405962259}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1132461488}
+  m_Father: {fileID: 1555423032}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -11887,6 +11887,12 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &767238881 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8170153791668043269, guid: 0d230cc8be529a542a08cb878ab14b18,
+    type: 3}
+  m_PrefabInstance: {fileID: 29097231}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &772745673
 Mesh:
   m_ObjectHideFlags: 0
@@ -13690,6 +13696,7 @@ MonoBehaviour:
   goalEffect3: {fileID: 3026042737347428729, guid: cfc90bf64ba500a45a97a31ea0b18b3b,
     type: 3}
   goalText: {fileID: 405962262}
+  joyStick: {fileID: 767238881}
 --- !u!4 &832121509
 Transform:
   m_ObjectHideFlags: 0
@@ -16245,7 +16252,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1555423032}
-  - {fileID: 405962260}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -21769,6 +21775,7 @@ MonoBehaviour:
   userId: {fileID: 518722528}
   ballPrefab: {fileID: 6886356499925901748, guid: 8a588a39e54945046888c3ff752eacda,
     type: 3}
+  timer: {fileID: 2115084222}
   InitBallPos: {x: 0, y: 0, z: 0}
   isStart: 0
   isEnd: 0
@@ -22501,7 +22508,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1520052371}
-  m_Text: 90
+  m_Text: 30
   m_OffsetZ: 0
   m_CharacterSize: 0.06
   m_LineSpacing: 1
@@ -22727,6 +22734,7 @@ RectTransform:
   - {fileID: 549959415}
   - {fileID: 733480362}
   - {fileID: 96028662}
+  - {fileID: 405962260}
   m_Father: {fileID: 1132461488}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -27845,7 +27853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerText: {fileID: 1520052373}
-  roomModel: {fileID: 0}
+  roomModel: {fileID: 918970385}
 --- !u!1 &2126192741
 GameObject:
   m_ObjectHideFlags: 0

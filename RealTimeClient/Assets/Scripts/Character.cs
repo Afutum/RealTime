@@ -32,6 +32,7 @@ public class Character : MonoBehaviour
     FloatingJoystick floatingJoystick;
 
     RoomModel roomModel;
+    GameDirector gameDirector;
 
     public Guid connectionId;
 
@@ -42,9 +43,10 @@ public class Character : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        floatingJoystick = GameObject.Find("Floating Joystick").GetComponent<FloatingJoystick>();
 
         roomModel = GameObject.Find("RoomModel").GetComponent<RoomModel>();
+
+        gameDirector = GameObject.Find("GameDirector").GetComponent<GameDirector>();
 
         animator = this.gameObject.GetComponent<Animator>();
 
@@ -74,6 +76,16 @@ public class Character : MonoBehaviour
         {
             return;
         }
+
+        if (gameDirector.isStart == false || gameDirector.isEnd)
+        {
+            return ;
+        }
+        else if(gameDirector.isStart)
+        {
+            floatingJoystick = GameObject.Find("Floating Joystick").GetComponent<FloatingJoystick>();
+        }
+
         Vector3 cameraForward = new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z);
         Vector3 cameraRight = new Vector3(Camera.main.transform.right.x, 0, Camera.main.transform.right.z);
 
