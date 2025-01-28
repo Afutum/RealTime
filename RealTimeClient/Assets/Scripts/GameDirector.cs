@@ -72,8 +72,6 @@ public class GameDirector : MonoBehaviour
     {
         await roomModel.LeaveAsync();
 
-        roomModel.EndGameAsync();
-
         // UI‚ð•\Ž¦
         manager.DisplayUI();
     }
@@ -137,17 +135,23 @@ public class GameDirector : MonoBehaviour
         }
         else
         {
-            Destroy(characterList[ConnectionId]);
-            characterList.Remove(ConnectionId);
+            if (characterList.ContainsKey(ConnectionId))
+            {
+                Destroy(characterList[ConnectionId]);
+                characterList.Remove(ConnectionId);
+            }
         }
     }
 
     // ˆÚ“®
     private void OnMove(Guid ConnectionId,Vector3 pos,Quaternion rot,int state)
     {
-        characterList[ConnectionId].transform.DOLocalMove(pos,0.1f);
-        characterList[ConnectionId].transform.DOLocalRotateQuaternion(rot,0.1f);
-        characterList[ConnectionId].GetComponent<Character>().state = (Character.CharacterState)state;
+        if (characterList.ContainsKey(ConnectionId))
+        {
+            characterList[ConnectionId].transform.DOLocalMove(pos, 0.1f);
+            characterList[ConnectionId].transform.DOLocalRotateQuaternion(rot, 0.1f);
+            characterList[ConnectionId].GetComponent<Character>().state = (Character.CharacterState)state;
+        }
     }
 
     private async void SendMove()
@@ -157,15 +161,21 @@ public class GameDirector : MonoBehaviour
             await roomModel.MoveBallAsync(ball.transform.position, ball.transform.rotation);
         }
 
-        await roomModel.MoveAsync(characterList[roomModel.ConnectionId].transform.position, 
-            characterList[roomModel.ConnectionId].transform.rotation,
-            (IRoomHubReceiver.CharacterState)characterList[roomModel.ConnectionId].GetComponent<Character>().state);
+        if (characterList.ContainsKey(roomModel.ConnectionId))
+        {
+            await roomModel.MoveAsync(characterList[roomModel.ConnectionId].transform.position,
+                characterList[roomModel.ConnectionId].transform.rotation,
+                (IRoomHubReceiver.CharacterState)characterList[roomModel.ConnectionId].GetComponent<Character>().state);
+        }
     }
 
     private void OnMoveBall(Vector3 pos, Quaternion rot)
     {
-        ball.transform.transform.DOLocalMove(pos, 0.1f);
-        ball.transform.transform.DOLocalRotateQuaternion(rot, 0.1f);
+        if (ball != null)
+        {
+            ball.transform.transform.DOLocalMove(pos, 0.1f);
+            ball.transform.transform.DOLocalRotateQuaternion(rot, 0.1f);
+        }
     }
 
     public async void SetReady()
@@ -177,7 +187,9 @@ public class GameDirector : MonoBehaviour
     {
         manager.GoalTextCount(leftGoalNum, rightGoalNum);
 
-        manager.GoalEffect();
+        manager.DisplayEffect();
+
+        manager.GoalText();
     }
 
     public void OnStartGame()
@@ -203,5 +215,10 @@ public class GameDirector : MonoBehaviour
         manager.DelayHideUI();
         timer.ResetTimer();
         Invoke("ExitRoom", 1.0f);
+    }
+
+    public void GameResult()
+    {
+        manager.ResultScore();
     }
 }

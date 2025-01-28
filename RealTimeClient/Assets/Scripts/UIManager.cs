@@ -23,6 +23,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject goalEffect3;
     [SerializeField] Text goalText;
     [SerializeField] GameObject joyStick;
+    [SerializeField] GameObject leftPlayer;
+    [SerializeField] GameObject rightPlayer;
 
     GameObject effect1;
     GameObject effect2;
@@ -34,6 +36,9 @@ public class UIManager : MonoBehaviour
 
     public bool isShootArea {get; set;}
 
+    public int leftGoalScore;
+    public int rightGoalScore;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +47,9 @@ public class UIManager : MonoBehaviour
         shootBtn.SetActive(false);
         joyStick.SetActive(false);
         goalText.enabled = false;
+
+        leftPlayer.SetActive(false);
+        rightPlayer.SetActive(false);
     }
 
     // Update is called once per frame
@@ -77,6 +85,9 @@ public class UIManager : MonoBehaviour
 
     public void GoalTextCount(int leftGoalCnt, int rightGoalCnt)
     {
+        leftGoalScore = leftGoalCnt;
+        rightGoalScore = rightGoalCnt;
+
         LeftGoal.text = "" + leftGoalCnt;
         RightGoal.text = "" + rightGoalCnt;
     }
@@ -89,31 +100,23 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void GoalEffect()
+    public void GoalText()
     {
-        effect1 = Instantiate(goalEffect1);
-        effect2 = Instantiate(goalEffect2);
-        effect3 = Instantiate(goalEffect3);
-
-        effect1.transform.position = new Vector3(-2.7f, 0, 0);
-        effect2.transform.position = new Vector3(3.86f, 0, 0);
-        effect3.transform.position = new Vector3(0, -2.92f, 0);
-
         goalText.enabled = true;
         goalText.DOText("GOAL", 3.0f);
 
-        Invoke(("DestoryGoalEffect"), 3f);
-    }
-
-    public void DestoryGoalEffect()
-    {
-        Destroy(effect1);
-        Destroy(effect2);
-        Destroy(effect3);
+        Invoke(("DestoryEffect"), 3f);
 
         goalText.enabled = false;
 
         ball.ResetBallPos();
+    }
+
+    public void DestoryEffect()
+    {
+        Destroy(effect1);
+        Destroy(effect2);
+        Destroy(effect3);
     }
 
     public void SetBall(GameObject ballObj)
@@ -136,5 +139,28 @@ public class UIManager : MonoBehaviour
     public void DelayHideUI()
     {
         Invoke("HideGameUI", 1.0f);
+    }
+
+    public void ResultScore()
+    {
+        if(leftGoalScore > rightGoalScore)
+        {
+            leftPlayer.SetActive(true);
+        }
+        else
+        {
+            rightPlayer.SetActive(true);
+        }
+    }
+
+    public void DisplayEffect()
+    {
+        effect1 = Instantiate(goalEffect1);
+        effect2 = Instantiate(goalEffect2);
+        effect3 = Instantiate(goalEffect3);
+
+        effect1.transform.position = new Vector3(-2.7f, 0, 0);
+        effect2.transform.position = new Vector3(3.86f, 0, 0);
+        effect3.transform.position = new Vector3(0, -2.92f, 0);
     }
 }

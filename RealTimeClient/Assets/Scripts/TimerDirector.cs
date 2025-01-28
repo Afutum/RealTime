@@ -12,9 +12,9 @@ public class TimerDirector : MonoBehaviour
 
     GameDirector gameDirector;
 
-    //®”‚Æ‚·‚é•Ï”‚ğ’Ç‰Á
     int second;
-    float countTime = 5;
+    float countTime = 30;
+    int returnCount = 0;
 
     void Start()
     {

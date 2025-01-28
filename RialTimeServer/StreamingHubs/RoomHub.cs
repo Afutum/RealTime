@@ -111,6 +111,10 @@ namespace RialTimeServer.StreamingHubs
                 this.room.GetInMemoryStorage<RoomData>().Remove(this.ConnectionId);
                 // 退室したことを全メンバーに通知
                 this.Broadcast(room).OnLeaveUser(this.ConnectionId);
+
+                // ゲーム終了したことを自分以外に通知
+                this.BroadcastExceptSelf(room).OnEndGame();
+
                 // ルーム内のメンバーから削除
                 room.RemoveAsync(this.Context);
             }
@@ -167,27 +171,27 @@ namespace RialTimeServer.StreamingHubs
         {
             var roomStorage = this.room.GetInMemoryStorage<RoomData>();
             var roomData = roomStorage.Get(this.ConnectionId);
-            roomData.isGameStart = false;
 
-            RoomData[] roomDataList = roomStorage.AllValues.ToArray<RoomData>();
-
-            bool isEndGame = true;
-
-            for (int i = 0; i < roomDataList.Length; i++)
+            lock (roomStorage)
             {
-                if (roomDataList[i].isGameStart == false)
-                {
-                    isEndGame = true;
-                }
-                else
-                {
-                    isEndGame = false;
-                }
-            }
+                roomData.isGameStart = false;
 
-            if (isEndGame)
-            {
-                this.Broadcast(room).OnEndGame();
+                RoomData[] roomDataList = roomStorage.AllValues.ToArray<RoomData>();
+
+                bool isEndGame = true;
+
+                for (int i = 0; i < roomDataList.Length; i++)
+                {
+                    if (roomDataList[i].isGameStart == true)
+                    {
+                        isEndGame = false;
+                    }
+                }
+
+                if (isEndGame)
+                {
+                    this.Broadcast(room).OnEndGame();
+                }
             }
         }
     }
