@@ -220,5 +220,11 @@ public class GameDirector : MonoBehaviour
     public void GameResult()
     {
         manager.ResultScore();
+        Invoke("ExitRoom", 3.0f);
+    }
+
+    public void EndGame()
+    {
+        roomModel.EndGameAsync();
     }
 }

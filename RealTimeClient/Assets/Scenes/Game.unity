@@ -7889,7 +7889,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0
-  m_Text: GOAL
+  m_Text: 
 --- !u!222 &405962263
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13781,8 +13781,8 @@ MonoBehaviour:
   userId: {fileID: 9663996}
   inRoomButton: {fileID: 1577562509}
   ReadyButton: {fileID: 0}
-  LeftGoal: {fileID: 937559457}
-  RightGoal: {fileID: 1097483750}
+  LeftGoal: {fileID: 1097483750}
+  RightGoal: {fileID: 937559457}
   shootBtn: {fileID: 96028661}
   goalEffect1: {fileID: 6985843439123286799, guid: cbd6d2972f012bf418affb595e6caea7,
     type: 3}

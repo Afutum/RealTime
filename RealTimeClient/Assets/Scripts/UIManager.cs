@@ -107,9 +107,7 @@ public class UIManager : MonoBehaviour
 
         Invoke(("DestoryEffect"), 3f);
 
-        goalText.enabled = false;
-
-        ball.ResetBallPos();
+        //ball.ResetBallPos();
     }
 
     public void DestoryEffect()
@@ -117,6 +115,13 @@ public class UIManager : MonoBehaviour
         Destroy(effect1);
         Destroy(effect2);
         Destroy(effect3);
+
+        if(goalText.enabled == true)
+        {
+            goalText.text = "";
+            goalText.enabled = false;
+            ball.ResetBallPos();
+        }
     }
 
     public void SetBall(GameObject ballObj)
