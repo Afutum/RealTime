@@ -32,5 +32,7 @@ namespace Shared.Interfaces.StreamingHubs
         Task StartGameAsync();
 
         Task EndGameAsync();
+
+        Task<JoinedUser[]> JoinLobbyAsync(int userId);
     }
 }

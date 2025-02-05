@@ -37,5 +37,7 @@ namespace Shared.Interfaces.StreamingHubs
         void OnStart();
 
         void OnEndGame();
+
+        void OnMatching();
     }
 }

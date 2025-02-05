@@ -7,6 +7,8 @@ using UnityEngine.UI;
 using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine.TextCore.Text;
+using UnityEngine.SceneManagement;
+using RialTimeServer.Model.Entity;
 
 
 public class GameDirector : MonoBehaviour
@@ -76,6 +78,14 @@ public class GameDirector : MonoBehaviour
         manager.DisplayUI();
     }
 
+    // タイトルへ戻る
+    /*public async void BackTitle()
+    {
+        await roomModel.LeaveAsync();
+
+        SceneManager.LoadScene("Title");
+    }*/
+
     // ユーザーが入室した時の処理
     private async void OnJoinedUser(JoinedUser user)
     {
@@ -115,6 +125,11 @@ public class GameDirector : MonoBehaviour
         {
             roomModel.StartGameAsync();
         }
+    }
+
+    private async void OnMatchingUser()
+    {
+
     }
 
     // 退出ユーザー削除

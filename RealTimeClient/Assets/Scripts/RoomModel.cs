@@ -3,6 +3,7 @@ using Cysharp.Net.Http;
 using Cysharp.Threading.Tasks;
 using Grpc.Net.Client;
 using MagicOnion.Client;
+using RialTimeServer.Model.Entity;
 using Shared.Interfaces.StreamingHubs;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,8 @@ public class RoomModel : BaseModel,IRoomHubReceiver
 
     public Action OnGameEnd { get; set; }
 
+    public Action<int> OnMatchingUser { get; set; }
+
     // MagicOnionê⁄ë±èàóù
     public async UniTask ConnectAsync()
     {
@@ -79,6 +82,21 @@ public class RoomModel : BaseModel,IRoomHubReceiver
     public void OnJoin(JoinedUser user)
     {
         OnJoinedUser(user);
+    }
+
+    public async UniTask JoinLobbyAsync(int userId)
+    {
+        JoinedUser[] users = await roomHub.JoinAsync("Lobby", userId);
+        foreach (var user in users)
+        {
+            if (user.UserData.Id == userId) this.ConnectionId = user.ConnectionId;
+            OnJoinedUser(user);
+        }
+    }
+
+    public void OnMatching(int userId)
+    {
+        
     }
 
     public async UniTask LeaveAsync()

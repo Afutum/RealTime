@@ -194,5 +194,17 @@ namespace RialTimeServer.StreamingHubs
                 }
             }
         }
+
+        public async Task<JoinedUser[]> JoinLobbyAsync(int userId)
+        {
+            JoinedUser[] joinedUserList = await JoinAsync("Lobby", userId);
+
+            if(joinedUserList.Length == 2)
+            {
+                this.Broadcast(room).OnMatching(userId);
+            }
+
+            return joinedUserList;
+        }
     }
 }
