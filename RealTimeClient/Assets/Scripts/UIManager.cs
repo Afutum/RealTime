@@ -25,19 +25,23 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject joyStick;
     [SerializeField] GameObject leftPlayer;
     [SerializeField] GameObject rightPlayer;
+    [SerializeField] Text drowText;
 
     GameObject effect1;
     GameObject effect2;
     GameObject effect3;
 
     GameDirector gameDirector;
-
     BallDirector ball;
 
     public bool isShootArea {get; set;}
 
-    public int leftGoalScore;
-    public int rightGoalScore;
+    public int leftGoalScore { get; set;}
+    public int rightGoalScore { get; set;}
+
+    public bool isDrow { get; set;}
+    public int drowCount;
+    public bool isStop { get; set;}
 
     // Start is called before the first frame update
     void Start()
@@ -50,6 +54,9 @@ public class UIManager : MonoBehaviour
 
         leftPlayer.SetActive(false);
         rightPlayer.SetActive(false);
+
+        isDrow = false;
+        drowCount = 0;
     }
 
     // Update is called once per frame
@@ -190,10 +197,23 @@ public class UIManager : MonoBehaviour
         if(leftGoalScore > rightGoalScore)
         {
             leftPlayer.SetActive(true);
+            isDrow = false;
         }
-        else
+        else if (leftGoalScore == rightGoalScore && drowCount == 0)
+        {
+            isDrow = true;
+
+            if(drowCount >= 1)
+            {
+                isDrow = false;
+            }
+
+            drowCount++;
+        }
+        else if(rightGoalScore > leftGoalScore)
         {
             rightPlayer.SetActive(true);
+            isDrow = false;
         }
     }
 
@@ -209,5 +229,17 @@ public class UIManager : MonoBehaviour
         effect1.transform.position = new Vector3(-2.7f, 0, 0);
         effect2.transform.position = new Vector3(3.86f, 0, 0);
         effect3.transform.position = new Vector3(0, -2.92f, 0);
+    }
+
+    public void DisplayDrow()
+    {
+        isStop = true;
+        drowText.DOFade(1.0f, 1.5f);
+    }
+
+    public void HideDrow()
+    {
+        isStop = false;
+        drowText.DOFade(0.0f, 1.5f);
     }
 }

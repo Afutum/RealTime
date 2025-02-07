@@ -32,6 +32,7 @@ public class Character : MonoBehaviour
 
     RoomModel roomModel;
     GameDirector gameDirector;
+    UIManager uiManager;
 
     public Guid connectionId;
 
@@ -46,6 +47,8 @@ public class Character : MonoBehaviour
         roomModel = GameObject.Find("RoomModel").GetComponent<RoomModel>();
 
         gameDirector = GameObject.Find("GameDirector").GetComponent<GameDirector>();
+
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
 
         animator = this.gameObject.GetComponent<Animator>();
 
@@ -85,33 +88,36 @@ public class Character : MonoBehaviour
             floatingJoystick = GameObject.Find("Floating Joystick").GetComponent<FloatingJoystick>();
         }
 
-        Vector3 cameraForward = new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z);
-        Vector3 cameraRight = new Vector3(Camera.main.transform.right.x, 0, Camera.main.transform.right.z);
-
-        //this.transform.DOMove(new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z),2.0f);
-
-        move = (cameraForward * floatingJoystick.Vertical + cameraRight * floatingJoystick.Horizontal).normalized;
-
-        rb.velocity = move * moveSpeed;
-
-        animSpeed = rb.velocity.magnitude;
-
-        if(animSpeed > 0)
+        if (uiManager.isStop == false)
         {
-            state = CharacterState.run;
-        }
-        else
-        {
-            state = CharacterState.idle;
-        }
+            Vector3 cameraForward = new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z);
+            Vector3 cameraRight = new Vector3(Camera.main.transform.right.x, 0, Camera.main.transform.right.z);
 
-        animator.SetInteger("state",(int)state);
+            //this.transform.DOMove(new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z),2.0f);
 
-        if (move != Vector3.zero)
-        {
-            //transform.forward = move;
-            //-----------------------------------------現在地,目的の値,時間
-            transform.forward = Vector3.Slerp(transform.forward, move, Time.deltaTime * 6);
+            move = (cameraForward * floatingJoystick.Vertical + cameraRight * floatingJoystick.Horizontal).normalized;
+
+            rb.velocity = move * moveSpeed;
+
+            animSpeed = rb.velocity.magnitude;
+
+            if (animSpeed > 0)
+            {
+                state = CharacterState.run;
+            }
+            else
+            {
+                state = CharacterState.idle;
+            }
+
+            animator.SetInteger("state", (int)state);
+
+            if (move != Vector3.zero)
+            {
+                //transform.forward = move;
+                //-----------------------------------------現在地,目的の値,時間
+                transform.forward = Vector3.Slerp(transform.forward, move, Time.deltaTime * 6);
+            }
         }
     }
 

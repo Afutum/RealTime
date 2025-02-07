@@ -270,11 +270,12 @@ public class GameDirector : MonoBehaviour
     public void OnEndGame()
     {
         isStart = false;
+        manager.isDrow = false;
         isEnd = true;
 
         manager.DelayHideUI();
         timer.ResetTimer();
-        Invoke("ExitRoom", 1.0f);
+        GameResult();
     }
 
     /// <summary>
@@ -283,7 +284,10 @@ public class GameDirector : MonoBehaviour
     public void GameResult()
     {
         manager.ResultScore();
-        Invoke("ExitRoom", 3.0f);
+        if (manager.isDrow == false)
+        {
+            Invoke("ExitRoom", 3.0f);
+        }
     }
 
     /// <summary>
