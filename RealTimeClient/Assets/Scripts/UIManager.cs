@@ -61,11 +61,17 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 登録ボタンが押された
+    /// </summary>
     public void PushButton()
     {
         userModel.RegistUserAsync(name.text);
     }
 
+    /// <summary>
+    /// 特定UIの非表示
+    /// </summary>
     public void HideUI()
     {
         userId.SetActive(false);
@@ -78,11 +84,19 @@ public class UIManager : MonoBehaviour
         inRoomButton.SetActive(true);
     }
 
+    /// <summary>
+    /// 準備完了ボタンが押された
+    /// </summary>
     public void PushReady()
     {
         gameDirector.SetReady();
     }
 
+    /// <summary>
+    /// ゴールカウント
+    /// </summary>
+    /// <param name="leftGoalCnt"></param>
+    /// <param name="rightGoalCnt"></param>
     public void GoalTextCount(int leftGoalCnt, int rightGoalCnt)
     {
         leftGoalScore = leftGoalCnt;
@@ -92,6 +106,9 @@ public class UIManager : MonoBehaviour
         RightGoal.text = "" + rightGoalCnt;
     }
 
+    /// <summary>
+    /// シュートボタンがプッシュされた
+    /// </summary>
     public void PushShootBtn()
     {
         if (isShootArea)
@@ -100,6 +117,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ゴール時のテキスト表示
+    /// </summary>
     public void GoalText()
     {
         goalText.enabled = true;
@@ -110,6 +130,9 @@ public class UIManager : MonoBehaviour
         //ball.ResetBallPos();
     }
 
+    /// <summary>
+    /// エフェクトの削除
+    /// </summary>
     public void DestoryEffect()
     {
         Destroy(effect1);
@@ -124,28 +147,44 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ボールをセット
+    /// </summary>
+    /// <param name="ballObj"></param>
     public void SetBall(GameObject ballObj)
     {
         ball = ballObj.GetComponent<BallDirector>();
     }
 
+    /// <summary>
+    /// 特定UIの表示
+    /// </summary>
     public void DisplayGameUI()
     {
         shootBtn.SetActive(true);
         joyStick.SetActive(true);
     }
 
+    /// <summary>
+    /// 特定UIの非表示
+    /// </summary>
     public void HideGameUI()
     {
         shootBtn.SetActive(false);
         joyStick.SetActive(false);
     }
 
+    /// <summary>
+    /// 遅れてUIの表示
+    /// </summary>
     public void DelayHideUI()
     {
         Invoke("HideGameUI", 1.0f);
     }
 
+    /// <summary>
+    /// リザルトの表示
+    /// </summary>
     public void ResultScore()
     {
         if(leftGoalScore > rightGoalScore)
@@ -158,6 +197,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// エフェクトの表示
+    /// </summary>
     public void DisplayEffect()
     {
         effect1 = Instantiate(goalEffect1);

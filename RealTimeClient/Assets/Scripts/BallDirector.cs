@@ -116,11 +116,17 @@ public class BallDirector : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ボールを止める
+    /// </summary>
     public void StopBall()
     {
         myRigidbody.velocity = new Vector3(0,0,0);
     }
 
+    /// <summary>
+    /// シュート
+    /// </summary>
     public void shoot()
     {
         // プレイヤーの位置を取得
@@ -138,6 +144,10 @@ public class BallDirector : MonoBehaviour
         Debug.Log(myRigidbody.velocity);
     }
 
+    /// <summary>
+    /// シュートの通知を受け取った
+    /// </summary>
+    /// <param name="shootPow"></param>
     public void OnShoot(Vector3 shootPow)
     {
         if (gameDirector.joinOrder == 1)
@@ -146,6 +156,9 @@ public class BallDirector : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ボールの位置を初期位置に
+    /// </summary>
     public async void ResetBallPos()
     {
         if (isGoal)

@@ -38,6 +38,6 @@ namespace Shared.Interfaces.StreamingHubs
 
         void OnEndGame();
 
-        void OnMatching();
+        void OnMatching(string roomName);
     }
 }

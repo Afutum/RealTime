@@ -58,18 +58,29 @@ public class GameDirector : MonoBehaviour
 
         // 接続
         await roomModel.ConnectAsync();
+
+        // ルームに入室
+        JoinRoom();
     }
 
+    /// <summary>
+    /// ルーム入室処理
+    /// </summary>
     public async void JoinRoom()
     {
+        string roomName = TitleManager.RoomName.joinRoomName;
+        string userId = TitleManager.RoomName.userId;
+
         // 入室
-        await roomModel.JoinAsync("sampleRoom", int.Parse(userId.text));
+        await roomModel.JoinAsync(roomName, int.Parse(userId));
 
         // UIを非表示
         manager.HideUI();
     }
 
-    // ユーザー退出
+    /// <summary>
+    /// ユーザー退出
+    /// </summary>
     public async void ExitRoom()
     {
         await roomModel.LeaveAsync();
@@ -86,7 +97,10 @@ public class GameDirector : MonoBehaviour
         SceneManager.LoadScene("Title");
     }*/
 
-    // ユーザーが入室した時の処理
+    /// <summary>
+    /// ユーザーが入室した時の処理
+    /// </summary>
+    /// <param name="user"></param>
     private async void OnJoinedUser(JoinedUser user)
     {
         GameObject characterObject = Instantiate(characterPrefab); // インスタンス生成
@@ -127,12 +141,10 @@ public class GameDirector : MonoBehaviour
         }
     }
 
-    private async void OnMatchingUser()
-    {
-
-    }
-
-    // 退出ユーザー削除
+    /// <summary>
+    /// 退出ユーザー削除
+    /// </summary>
+    /// <param name="ConnectionId"></param>
     private void OnLeave(Guid ConnectionId)
     {
         if(roomModel.ConnectionId == ConnectionId)
@@ -158,7 +170,13 @@ public class GameDirector : MonoBehaviour
         }
     }
 
-    // 移動
+    /// <summary>
+    /// プレイヤーの移動通知
+    /// </summary>
+    /// <param name="ConnectionId"></param>
+    /// <param name="pos"></param>
+    /// <param name="rot"></param>
+    /// <param name="state"></param>
     private void OnMove(Guid ConnectionId,Vector3 pos,Quaternion rot,int state)
     {
         if (characterList.ContainsKey(ConnectionId))
@@ -169,6 +187,9 @@ public class GameDirector : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 移動
+    /// </summary>
     private async void SendMove()
     {
         if (joinOrder == 1)
@@ -184,6 +205,11 @@ public class GameDirector : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ボールの移動通知受け取り
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <param name="rot"></param>
     private void OnMoveBall(Vector3 pos, Quaternion rot)
     {
         if (ball != null)
@@ -193,11 +219,21 @@ public class GameDirector : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 準備完了
+    /// </summary>
+    /// <param name="leftGoalNum"></param>
+    /// <param name="rightGoalNum"></param>
     public async void SetReady()
     {
         await roomModel.ReadyAsync();
     }
 
+    /// <summary>
+    /// ゴール通知受け取り
+    /// </summary>
+    /// <param name="leftGoalNum"></param>
+    /// <param name="rightGoalNum"></param>
     public void OnGoal(int leftGoalNum, int rightGoalNum)
     {
         manager.GoalTextCount(leftGoalNum, rightGoalNum);
@@ -207,6 +243,9 @@ public class GameDirector : MonoBehaviour
         manager.GoalText();
     }
 
+    /// <summary>
+    /// ゲームスタート通知受け取り
+    /// </summary>
     public void OnStartGame()
     {
         isEnd = false;
@@ -214,6 +253,9 @@ public class GameDirector : MonoBehaviour
         manager.DisplayGameUI();
     }
 
+    /// <summary>
+    /// プレイヤーの位置リセット
+    /// </summary>
     public void ResetCharaPos()
     {
         foreach(var character in characterList)
@@ -222,6 +264,9 @@ public class GameDirector : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ゲーム終了通知受け取り
+    /// </summary>
     public void OnEndGame()
     {
         isStart = false;
@@ -232,12 +277,18 @@ public class GameDirector : MonoBehaviour
         Invoke("ExitRoom", 1.0f);
     }
 
+    /// <summary>
+    /// ゲームリザルト
+    /// </summary>
     public void GameResult()
     {
         manager.ResultScore();
         Invoke("ExitRoom", 3.0f);
     }
 
+    /// <summary>
+    /// ゲーム終了
+    /// </summary>
     public void EndGame()
     {
         roomModel.EndGameAsync();

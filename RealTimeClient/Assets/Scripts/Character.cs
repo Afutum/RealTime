@@ -115,6 +115,11 @@ public class Character : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 初期位置の保存
+    /// </summary>
+    /// <param name="initPos"></param>
+    /// <param name="rot"></param>
     public void InitPosition(Vector3 initPos, Quaternion rot)
     {
         this.gameObject.transform.position = initPos;
@@ -124,6 +129,9 @@ public class Character : MonoBehaviour
         initCharaRot = this.gameObject.transform.rotation;
     }
 
+    /// <summary>
+    /// 位置のリセット
+    /// </summary>
     public void ResetPos()
     {
         this.gameObject.transform.position = initCharaPos;

@@ -40,6 +40,9 @@ public class TimerDirector : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// タイマーリセット
+    /// </summary>
     public void ResetTimer()
     {
         countTime = 30;

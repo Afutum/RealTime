@@ -201,7 +201,8 @@ namespace RialTimeServer.StreamingHubs
 
             if(joinedUserList.Length == 2)
             {
-                this.Broadcast(room).OnMatching(userId);
+                Guid guidValue = Guid.NewGuid();
+                this.Broadcast(room).OnMatching(guidValue.ToString());
             }
 
             return joinedUserList;
