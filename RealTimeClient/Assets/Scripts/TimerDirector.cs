@@ -65,6 +65,7 @@ public class TimerDirector : MonoBehaviour
     public void ResetTimer()
     {
         GameObject.Find("Ball(Clone)").GetComponent<BallDirector>().ResetBallPos();
+        uiManager.isDrow = false;
         countTime = 30;
         timerText.text = second.ToString();
     }

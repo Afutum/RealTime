@@ -86,7 +86,7 @@ public class GameDirector : MonoBehaviour
         await roomModel.LeaveAsync();
 
         // UIを表示
-        manager.DisplayUI();
+        //manager.DisplayUI();
     }
 
     // タイトルへ戻る
@@ -159,6 +159,7 @@ public class GameDirector : MonoBehaviour
             Destroy(ball);
 
             CancelInvoke("SendMove");
+            SceneManager.LoadScene("Title");
         }
         else
         {

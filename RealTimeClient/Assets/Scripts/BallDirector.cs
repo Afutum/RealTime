@@ -161,7 +161,7 @@ public class BallDirector : MonoBehaviour
     /// </summary>
     public async void ResetBallPos()
     {
-        if (isGoal)
+        if (isGoal || manager.isDrow)
         {
             StopBall();
             this.gameObject.transform.position = gameDirector.InitBallPos;

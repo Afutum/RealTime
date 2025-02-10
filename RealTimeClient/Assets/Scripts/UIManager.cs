@@ -233,6 +233,7 @@ public class UIManager : MonoBehaviour
 
     public void DisplayDrow()
     {
+        isDrow = true;
         isStop = true;
         drowText.DOFade(1.0f, 1.5f);
     }
