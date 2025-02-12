@@ -9,6 +9,15 @@ participant MagicOnion
 
 autonumber
 
+クライアントA -> MagicOnion:JoinLobby(userId)
+MagicOnion -> サーバー:OnMatching(roomName)
+クライアントB -> MagicOnion:JoinLobby(userId)
+MagicOnion -> サーバー:OnMatching(roomName)
+
+MagicOnion -> サーバー:OnLeave
+サーバー -> クライアントA:OnLeave
+サーバー -> クライアントB:OnLeave
+
 クライアントA -> MagicOnion:join(入室)
 サーバー <- MagicOnion:Onjoin(A)
 サーバー <- MagicOnion:Users(A)
@@ -18,6 +27,9 @@ autonumber
 クライアントA <- MagicOnion:Onjoin(B)
 サーバー <- MagicOnion:Users(A,B)
 クライアントB <- MagicOnion:Users(A,B)
+
+MagicOnion -> クライアントA:OnStartGame(ゲームスタート通知)
+MagicOnion -> クライアントB:OnStartGame(ゲームスタート通知)
 
 クライアントA -> MagicOnion:Move(A,pos,rot)(移動)
 クライアントB -> MagicOnion:Move(B,pos,rot)(移動)
@@ -29,8 +41,16 @@ MagicOnion -> クライアントB:OnMove(A,pos,rot)(移動通知)
 サーバー -> クライアントA:OnMoveBall(pos,rot)(ボール移動通知)
 サーバー -> クライアントB:OnMoveBall(pos,rot)(ボール移動通知)
 
+クライアントA -> MagicOnion:Goal
+MagicOnion -> クライアントB:OnGoal(ゴール通知)
+
 クライアントB -> サーバー:切断
 サーバー -> MagicOnion:OnDisconnected(クライアントB:切断)
 MagicOnion -> クライアントA:OnLeave(B)
+
+クライアントA -> MagicOnion:ゲーム終了
+MagicOnion -> サーバー:EndGame
+MagicOnion -> クライアントA:OnEndGame(ゲーム終了通知)
+MagicOnion -> クライアントB:OnEndGame(ゲーム終了通知)
 
 @enduml '

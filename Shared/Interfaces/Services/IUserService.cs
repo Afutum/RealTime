@@ -10,7 +10,7 @@ namespace Shared.Interfaces.Services
     public interface IUserService:IService<IUserService>
     {
         // ユーザー登録API
-        UnaryResult<int> RegistUserAsync(string name);
+        UnaryResult<int> RegistUserAsync();
 
         // id指定でユーザー情報を取得するAPI
         UnaryResult<User> GetUserAsync(int userId);

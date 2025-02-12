@@ -71,9 +71,9 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// “o˜^ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½
     /// </summary>
-    public void PushButton()
+    public async void PushButton()
     {
-        userModel.RegistUserAsync(name.text);
+        await userModel.RegistUserAsync();
     }
 
     /// <summary>

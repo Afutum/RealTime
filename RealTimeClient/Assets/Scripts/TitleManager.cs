@@ -1,8 +1,12 @@
+using Assets.Model;
+using Assets.Scripts;
 using DG.Tweening;
+using Newtonsoft.Json;
 using Shared.Interfaces.StreamingHubs;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,12 +16,13 @@ public class TitleManager : MonoBehaviour
 {
     [SerializeField] Text playText;
     [SerializeField] Text userId;
+    [SerializeField] Text load;
     [SerializeField] RoomModel roomModel;
 
     public class RoomName
     {
         public static string joinRoomName;
-        public static string userId;
+        public static int userId;
     }
 
     // Start is called before the first frame update
@@ -36,17 +41,48 @@ public class TitleManager : MonoBehaviour
                                                               // Sequenceを実行
         sequence.Play();
 
+        load.enabled = false;
+
         playText.DOFade(0.0f, 3f)   // アルファ値を0にしていく
                        .SetLoops(-1, LoopType.Yoyo);    // 行き来を無限に繰り返す
     }
 
     // Update is called once per frame
-    void Update()
+    async void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            playText.DOFade(0.0f, 0.1f)   // アルファ値を0にしていく
+            bool isSuccess = UserModel.Instance.LoadUserData();
+
+            if (!isSuccess)
+            {
+                if (await UserModel.Instance.RegistUserAsync())
+                {
+                    load.enabled = true;
+                    playText.enabled = false;
+
+                    load.DOFade(0.0f, 0.5f)   // アルファ値を0にしていく
                        .SetLoops(-1, LoopType.Yoyo);    // 行き来を無限に繰り返す
+
+                    JoinLobbyAsync();
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                UserModel.Instance.LoadUserData();
+
+                load.enabled = true;
+                    playText.enabled = false;
+
+                    load.DOFade(0.0f, 0.5f)   // アルファ値を0にしていく
+                       .SetLoops(-1, LoopType.Yoyo);    // 行き来を無限に繰り返す
+
+                JoinLobbyAsync();
+            }
         }
     }
 
@@ -63,7 +99,7 @@ public class TitleManager : MonoBehaviour
     /// </summary>
     public async void JoinLobbyAsync()
     {
-       await roomModel.JoinLobbyAsync(int.Parse(userId.text));
+       await roomModel.JoinLobbyAsync(UserModel.Instance.userID);
     }
 
     /// <summary>
@@ -73,7 +109,6 @@ public class TitleManager : MonoBehaviour
     private async void OnMatchingUser(string roomName)
     {
         RoomName.joinRoomName = roomName;
-        RoomName.userId = userId.text;
 
         await roomModel.LeaveAsync();
     }

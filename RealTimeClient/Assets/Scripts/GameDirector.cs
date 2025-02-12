@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 using UnityEngine.TextCore.Text;
 using UnityEngine.SceneManagement;
 using RialTimeServer.Model.Entity;
+using Assets.Model;
 
 
 public class GameDirector : MonoBehaviour
@@ -69,10 +70,10 @@ public class GameDirector : MonoBehaviour
     public async void JoinRoom()
     {
         string roomName = TitleManager.RoomName.joinRoomName;
-        string userId = TitleManager.RoomName.userId;
+        int userId = UserModel.Instance.userID;
 
         // “üŽº
-        await roomModel.JoinAsync(roomName, int.Parse(userId));
+        await roomModel.JoinAsync(roomName, userId);
 
         // UI‚ð”ñ•\Ž¦
         manager.HideUI();
