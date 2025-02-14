@@ -8,20 +8,20 @@ namespace RialTimeServer.StreamingHubs
 {
     public class UserService : ServiceBase<IUserService>, IUserService
     {
-        public async UnaryResult<int> RegistUserAsync(string name)
+        public async UnaryResult<int> RegistUserAsync()
         {
             using var context = new GameDbContext();
 
             //バリデーションチェック
-            if(context.Users.Where(user => user.Name == name).Count() > 0)
+            /*if(context.Users.Where(user => user.Name == name).Count() > 0)
             {
                 throw new ReturnStatusException(Grpc.Core.StatusCode.InvalidArgument,"エラーメッセージを書く");
-            }
+            }*/
 
             // テーブルにレコード追加
             User user = new User();
-            user.Name = name;
             user.Token = "";
+            user.Name = Guid.NewGuid().ToString();
             user.Created_at = DateTime.Now;
             user.Updated_at = DateTime.Now;
             context.Users.Add(user);

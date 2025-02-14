@@ -56,7 +56,9 @@ public class TitleManager : MonoBehaviour
 
             if (!isSuccess)
             {
-                if (await UserModel.Instance.RegistUserAsync())
+                bool isRegist = await UserModel.Instance.RegistUserAsync();
+
+                if (isRegist)
                 {
                     load.enabled = true;
                     playText.enabled = false;

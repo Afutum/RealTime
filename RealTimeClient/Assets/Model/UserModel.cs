@@ -42,6 +42,8 @@ namespace Assets.Model
             var handler = new YetAnotherHttpHandler() { Http2Only = true};
             var channel = GrpcChannel.ForAddress(ServerURL, new GrpcChannelOptions() { HttpHandler = handler });
             var cliant = MagicOnionClient.Create<IUserService>(channel);
+            userId = await cliant.RegistUserAsync();
+            
             try
             {// 登録成功
                 SaveUserData();
