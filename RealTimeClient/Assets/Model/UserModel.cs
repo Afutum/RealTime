@@ -13,7 +13,7 @@ namespace Assets.Model
 {
     internal class UserModel:BaseModel
     {
-        private int userId; // 登録ユーザーID
+        public int userId { get; set; } // 登録ユーザーID
 
         public static UserModel instance;
 
@@ -34,8 +34,6 @@ namespace Assets.Model
                 return instance;
             }
         }
-
-        public int userID { get; set;}
 
         public async UniTask<bool> RegistUserAsync()
         {

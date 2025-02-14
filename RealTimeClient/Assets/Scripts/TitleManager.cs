@@ -50,7 +50,7 @@ public class TitleManager : MonoBehaviour
     // Update is called once per frame
     async void Update()
     {
-        /*if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             bool isSuccess = UserModel.Instance.LoadUserData();
 
@@ -77,7 +77,7 @@ public class TitleManager : MonoBehaviour
             {
                 if(userId.text != "")
                 {
-                    UserModel.Instance.userID = int.Parse(userId.text);
+                    UserModel.Instance.userId = int.Parse(userId.text);
                 }
 
                 load.enabled = true;
@@ -88,7 +88,7 @@ public class TitleManager : MonoBehaviour
 
                 JoinLobbyAsync();
             }
-        }*/
+        }
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ public class TitleManager : MonoBehaviour
     /// </summary>
     public async void JoinLobbyAsync()
     {
-       await roomModel.JoinLobbyAsync(UserModel.Instance.userID);
+       await roomModel.JoinLobbyAsync(UserModel.Instance.userId);
     }
 
     /// <summary>
@@ -154,7 +154,7 @@ public class TitleManager : MonoBehaviour
         {
             if (userId.text != "")
             {
-                UserModel.Instance.userID = int.Parse(userId.text);
+                UserModel.Instance.userId = int.Parse(userId.text);
             }
 
             load.enabled = true;

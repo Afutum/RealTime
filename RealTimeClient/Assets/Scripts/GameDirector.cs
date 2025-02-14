@@ -10,7 +10,6 @@ using UnityEngine.TextCore.Text;
 using UnityEngine.SceneManagement;
 using RialTimeServer.Model.Entity;
 using Assets.Model;
-using UnityEditor.MemoryProfiler;
 
 
 public class GameDirector : MonoBehaviour
@@ -71,7 +70,7 @@ public class GameDirector : MonoBehaviour
     public async void JoinRoom()
     {
         string roomName = TitleManager.RoomName.joinRoomName;
-        int userId = UserModel.Instance.userID;
+        int userId = UserModel.Instance.userId;
 
         // “üŽº
         await roomModel.JoinAsync(roomName, userId);
@@ -161,6 +160,8 @@ public class GameDirector : MonoBehaviour
             }
 
             characterList.Clear();
+
+            roomModel.ConnectionId = Guid.Empty;
 
             Destroy(ball);
 
