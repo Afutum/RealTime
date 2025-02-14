@@ -50,11 +50,11 @@ public class TitleManager : MonoBehaviour
     // Update is called once per frame
     async void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        /*if (Input.GetMouseButtonDown(0))
         {
             bool isSuccess = UserModel.Instance.LoadUserData();
 
-            if (!isSuccess)
+            if (!isSuccess && userId.text == "")
             {
                 bool isRegist = await UserModel.Instance.RegistUserAsync();
 
@@ -75,7 +75,10 @@ public class TitleManager : MonoBehaviour
             }
             else
             {
-                UserModel.Instance.LoadUserData();
+                if(userId.text != "")
+                {
+                    UserModel.Instance.userID = int.Parse(userId.text);
+                }
 
                 load.enabled = true;
                     playText.enabled = false;
@@ -85,7 +88,7 @@ public class TitleManager : MonoBehaviour
 
                 JoinLobbyAsync();
             }
-        }
+        }*/
     }
 
     /// <summary>
@@ -122,5 +125,45 @@ public class TitleManager : MonoBehaviour
     private void OnLeave(Guid ConnectionId)
     {
         ChangeScene();
+    }
+
+    public async void PushRegistButton()
+    {
+        bool isSuccess = UserModel.Instance.LoadUserData();
+
+        if (!isSuccess && userId.text == "")
+        {
+            bool isRegist = await UserModel.Instance.RegistUserAsync();
+
+            if (isRegist)
+            {
+                load.enabled = true;
+                playText.enabled = false;
+
+                load.DOFade(0.0f, 0.5f)   // アルファ値を0にしていく
+                   .SetLoops(-1, LoopType.Yoyo);    // 行き来を無限に繰り返す
+
+                JoinLobbyAsync();
+            }
+            else
+            {
+                return;
+            }
+        }
+        else
+        {
+            if (userId.text != "")
+            {
+                UserModel.Instance.userID = int.Parse(userId.text);
+            }
+
+            load.enabled = true;
+            playText.enabled = false;
+
+            load.DOFade(0.0f, 0.5f)   // アルファ値を0にしていく
+               .SetLoops(-1, LoopType.Yoyo);    // 行き来を無限に繰り返す
+
+            JoinLobbyAsync();
+        }
     }
 }

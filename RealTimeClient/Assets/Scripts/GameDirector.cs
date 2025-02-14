@@ -10,6 +10,7 @@ using UnityEngine.TextCore.Text;
 using UnityEngine.SceneManagement;
 using RialTimeServer.Model.Entity;
 using Assets.Model;
+using UnityEditor.MemoryProfiler;
 
 
 public class GameDirector : MonoBehaviour
@@ -113,6 +114,10 @@ public class GameDirector : MonoBehaviour
             InvokeRepeating("SendMove", 0.1f,0.1f);
             joinOrder = user.JoinOrder;
         }
+        else
+        {
+            chara.enabled = false;
+        }
 
         if(user.JoinOrder == 1)
         {
@@ -185,7 +190,7 @@ public class GameDirector : MonoBehaviour
         {
             characterList[ConnectionId].transform.DOLocalMove(pos, 0.1f);
             characterList[ConnectionId].transform.DOLocalRotateQuaternion(rot, 0.1f);
-            characterList[ConnectionId].GetComponent<Character>().state = (Character.CharacterState)state;
+            characterList[ConnectionId].GetComponent<Animator>().SetInteger("state", state);
         }
     }
 

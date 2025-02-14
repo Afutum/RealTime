@@ -47,26 +47,30 @@ namespace RialTimeServer.StreamingHubs
 
             // グループストレージにユーザーデータを格納
             var roomStorage = this.room.GetInMemoryStorage<RoomData>();
-            var joinedUser = new JoinedUser() { ConnectionId = this.ConnectionId, UserData = user};
-            var roomData = new RoomData() { JoinedUser = joinedUser }; 
-            roomStorage.Set(this.ConnectionId,roomData);
 
-            RoomData[] roomDataList = roomStorage.AllValues.ToArray<RoomData>();
-
-            joinedUser.JoinOrder = roomDataList.Length;
-
-            // ルーム参加者全員に、ユーザー入室通知を送信
-            this.BroadcastExceptSelf(room).OnJoin(joinedUser);
-
-            // 参加中のユーザー情報を返す
-            JoinedUser[] joinedUsersList = new JoinedUser[roomDataList.Length];
-
-            for(int i = 0; i < roomDataList.Length; i++)
+            lock (roomStorage)
             {
-                joinedUsersList[i] = roomDataList[i].JoinedUser;
-            }
+                var joinedUser = new JoinedUser() { ConnectionId = this.ConnectionId, UserData = user };
+                var roomData = new RoomData() { JoinedUser = joinedUser };
+                roomStorage.Set(this.ConnectionId, roomData);
 
-            return joinedUsersList;
+                RoomData[] roomDataList = roomStorage.AllValues.ToArray<RoomData>();
+
+                joinedUser.JoinOrder = roomDataList.Length;
+
+                // ルーム参加者全員に、ユーザー入室通知を送信
+                this.BroadcastExceptSelf(room).OnJoin(joinedUser);
+
+                // 参加中のユーザー情報を返す
+                JoinedUser[] joinedUsersList = new JoinedUser[roomDataList.Length];
+
+                for (int i = 0; i < roomDataList.Length; i++)
+                {
+                    joinedUsersList[i] = roomDataList[i].JoinedUser;
+                }
+
+                return joinedUsersList;
+            }
         }
 
         public async Task LeaveAsync()

@@ -35,7 +35,7 @@ namespace Assets.Model
             }
         }
 
-        public int userID { get { return userId; }}
+        public int userID { get; set;}
 
         public async UniTask<bool> RegistUserAsync()
         {

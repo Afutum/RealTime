@@ -13,7 +13,6 @@ public class TimerDirector : MonoBehaviour
 
     GameDirector gameDirector;
     UIManager uiManager;
-    BallDirector ball;
 
     int second;
     float countTime = 30;
@@ -31,7 +30,8 @@ public class TimerDirector : MonoBehaviour
     {
         if(countTime <= 0)
         {
-            if (uiManager.leftGoalScore == uiManager.rightGoalScore)
+            if (uiManager.leftGoalScore == uiManager.rightGoalScore 
+                && uiManager.drowCount == 0)
             {
                 uiManager.DisplayDrow();
                 Invoke("HideDrow", 1.5f);

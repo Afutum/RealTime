@@ -26,6 +26,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject leftPlayer;
     [SerializeField] GameObject rightPlayer;
     [SerializeField] Text drowText;
+    [SerializeField] Text timerReset;
 
     GameObject effect1;
     GameObject effect2;
@@ -199,16 +200,10 @@ public class UIManager : MonoBehaviour
             leftPlayer.SetActive(true);
             isDrow = false;
         }
-        else if (leftGoalScore == rightGoalScore && drowCount == 0)
+        else if (leftGoalScore == rightGoalScore)
         {
-            isDrow = true;
-
-            if(drowCount >= 1)
-            {
-                isDrow = false;
-            }
-
-            drowCount++;
+            drowText.DOFade(1.0f, 1.5f);
+            Invoke("HideDrow", 1.5f);
         }
         else if(rightGoalScore > leftGoalScore)
         {
@@ -234,13 +229,16 @@ public class UIManager : MonoBehaviour
     public void DisplayDrow()
     {
         isDrow = true;
+        drowCount++;
         isStop = true;
         drowText.DOFade(1.0f, 1.5f);
+        timerReset.DOFade(1.0f, 1.5f);
     }
 
     public void HideDrow()
     {
         isStop = false;
         drowText.DOFade(0.0f, 1.5f);
+        timerReset.DOFade(0.0f, 1.5f);
     }
 }
