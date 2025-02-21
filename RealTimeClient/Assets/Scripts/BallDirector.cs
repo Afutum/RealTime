@@ -137,9 +137,9 @@ public class BallDirector : MonoBehaviour
         Vector3 direction = (ballPos - playerPos).normalized;
         direction.y += 0.6f;
         // 現在の速さを取得
-        float speed = myRigidbody.velocity.magnitude;
+        //float speed = myRigidbody.velocity.magnitude;
 
-        roomModel.ShootAsync(direction * shootPow);
+        roomModel.ShootAsync(direction * shootPow,direction);
 
         Debug.Log(myRigidbody.velocity);
     }
@@ -148,7 +148,7 @@ public class BallDirector : MonoBehaviour
     /// シュートの通知を受け取った
     /// </summary>
     /// <param name="shootPow"></param>
-    public void OnShoot(Vector3 shootPow)
+    public void OnShoot(Vector3 shootPow, Vector3 direction)
     {
         if (gameDirector.joinOrder == 1)
         {

@@ -137,10 +137,10 @@ namespace RialTimeServer.StreamingHubs
             this.Broadcast(room).OnGoal(roomDataList[0].GoalCount, roomDataList[1].GoalCount);
         }
 
-        public async Task ShootAsync(Vector3 shootPow)
+        public async Task ShootAsync(Vector3 shootPow,Vector3 direction)
         {
             // ローム内の他のユーザーに位置・回転の変更を送信
-            this.Broadcast(room).OnShoot(shootPow);
+            this.Broadcast(room).OnShoot(shootPow,direction);
         }
 
         public async Task StartGameAsync()

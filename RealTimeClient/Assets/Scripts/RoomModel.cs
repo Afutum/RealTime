@@ -37,7 +37,7 @@ public class RoomModel : BaseModel,IRoomHubReceiver
 
     public Action<int,int> OnGoalCnt {  get; set; }
 
-    public Action<Vector3> OnShootPow {  get; set; }
+    public Action<Vector3,Vector3> OnShootPow {  get; set; }
 
     public Action OnGameStart { get; set; }
 
@@ -152,14 +152,14 @@ public class RoomModel : BaseModel,IRoomHubReceiver
         OnGoalCnt(leftGoalNum,rightGoalNum);
     }
 
-    public async void ShootAsync(Vector3 shootPow)
+    public async void ShootAsync(Vector3 shootPow,Vector3 direction)
     {
-        await roomHub.ShootAsync(shootPow);
+        await roomHub.ShootAsync(shootPow,direction);
     }
 
-    public void OnShoot(Vector3 shootPow)
+    public void OnShoot(Vector3 shootPow, Vector3 direction)
     {
-        OnShootPow(shootPow);
+        OnShootPow(shootPow,direction);
     }
 
     public async void StartGameAsync()

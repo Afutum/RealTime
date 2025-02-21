@@ -27,7 +27,7 @@ namespace Shared.Interfaces.StreamingHubs
 
         Task GoalAsync();
 
-        Task ShootAsync(Vector3 shootPow);
+        Task ShootAsync(Vector3 shootPow,Vector3 direction);
 
         Task StartGameAsync();
 
